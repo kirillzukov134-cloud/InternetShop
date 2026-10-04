@@ -7,11 +7,24 @@ $name = $_POST['name'];
 $password = $_POST['password'];
 
 
-if (CheckClientAuth($pdo, $name, $password)) {
-    redirect('users.php');
-    exit;
-} else {
-    $_SESSION['msg-error'] = "Неверное имя пользователя или пароль.";
-    redirect('auth.php');
-    exit;
+$user = CheckClientAuth($pdo, $name, $password);
+
+if($user){
+    $_SESSION['user'] = [
+        'id' => $user['id'],
+        'name' => $user['name'],
+        'role' => $user['role']
+    ];
+
+    if($user['role'] === 'Admin'){
+        redirect('/settings.php');
+        exit;
+    }else{
+        redirect('/sidebar.php');
+        exit;
+    }
+}else{
+    $_SESSION['msg-error'] = 'Неверное имя пользователя или пароль';
+    redirect('/auth.php');
 }
+

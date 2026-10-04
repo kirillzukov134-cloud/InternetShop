@@ -11,16 +11,20 @@
         <div class="logo">
             <h1>InternetShop</h1>
         </div>
-
     <!-- Меню кнопок -->
     <div class="sidebar">
         <div class="sidebar-btns">
-            <a class="btns" href="#">Товары</a>
-            <a class="btns" href="#">Категории</a>
+            <a class="btns" href="sidebar.php">Главная</a>
+            <a class="btns" href="product.php">Товары</a>
+            <a class="btns" href="categories.php">Категории</a>
             <a class="btns" href="#">Оформление заказа</a>
             <a class="btns" href="#">Просмотреть заказы</a>
         </div>     
     </div>
-        </aside>
+    <div class="sidebar-footer">
+        <a href="#">Мой профиль</a>
+        <a href="logout.php">Выход</a>
+    </div> 
+    </aside>       
 </body>
 </html>

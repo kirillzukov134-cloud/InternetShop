@@ -29,16 +29,42 @@ function CheckClientsReg($pdo, $email){
 }
 
 function CheckClientAuth($pdo, $name, $password){
-    $sql = "SELECT name, password FROM Clients WHERE name = :name  LIMIT 1";
+    $sql = "SELECT name, password, role FROM Clients WHERE name = :name  LIMIT 1";
     $statement = $pdo->prepare($sql);
     $statement->execute([
         ':name' => $name,
     ]);
     $users = $statement->fetch(PDO::FETCH_ASSOC);
     if ($users && password_verify($password, $users['password'])) {
-        $_SESSION['user_id'] = $users['id'];
-        $_SESSION['user_name'] = $users['name'];
-        return true;
+        return $users;
     }
 return false;        
+}
+
+/*
+Все что связно с продуктами
+*/
+function selectAllProduct($pdo){
+    $sql = "SELECT
+                Product.id,
+                Product.name,
+                Product.price,
+                Product.remains,
+                Product_category.category AS category_name
+            FROM Product
+            JOIN Product_category ON Product.category_id = Product_category.id";
+    $statement = $pdo->prepare($sql);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+
+/*
+Все что связно с категориями
+*/
+
+function selectAllCategory($pdo){
+    $sql = "SELECT * FROM Product_category";
+    $statement = $pdo->prepare($sql);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
