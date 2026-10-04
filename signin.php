@@ -17,10 +17,10 @@ if($user){
     ];
 
     if($user['role'] === 'Admin'){
-        redirect('/settings.php');
+        redirect('/sidebar.php');
         exit;
     }else{
-        redirect('/sidebar.php');
+        redirect('./sidebar.php');
         exit;
     }
 }else{

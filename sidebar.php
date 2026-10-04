@@ -1,3 +1,6 @@
+<?php 
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,11 +17,21 @@
     <!-- Меню кнопок -->
     <div class="sidebar">
         <div class="sidebar-btns">
-            <a class="btns" href="sidebar.php">Главная</a>
+        <?php if (($_SESSION['user']['role']) === 'Admin'): ?>
+            <!-- Только для админа -->
             <a class="btns" href="product.php">Товары</a>
             <a class="btns" href="categories.php">Категории</a>
-            <a class="btns" href="#">Оформление заказа</a>
-            <a class="btns" href="#">Просмотреть заказы</a>
+            <a class="btns" href="users.php">Пользователи</a>
+            <a class="btns" href="#">Добавить товар</a>
+            <a class="btns" href="#">Добавить категорию</a>
+            <a class="btns" href="#">Все заказы</a>
+        <?php else: ?>
+            <!-- Для обычного пользователя -->
+            <a class="btns" href="products.php">Товары</a>
+            <a class="btns" href="categories.php">Категории</a>
+            <a class="btns" href="#">Оформить заказ</a>
+            <a class="btns" href="#">Мои заказы</a>
+        <?php endif; ?>
         </div>     
     </div>
     <div class="sidebar-footer">
