@@ -1,13 +1,15 @@
 <?php
 require_once 'db.php';
 //Редирект (переход по страницам)
-function redirect($path){
+function redirect($path)
+{
     header("Location: $path");
     exit;
 }
 
 //Добавление пользователя (регистрация)
-function insertUsers($pdo, $name, $email, $phone, $password){
+function insertUsers($pdo, $name, $email, $phone, $password)
+{
     $sql = "INSERT INTO Clients (name, email, phone, password) VALUES (:name, :email, :phone, :password)";
     $statement = $pdo->prepare($sql);
     return $statement->execute([
@@ -19,7 +21,8 @@ function insertUsers($pdo, $name, $email, $phone, $password){
 }
 
 //Существует ли такой клиент?
-function CheckClientsReg($pdo, $email){
+function CheckClientsReg($pdo, $email)
+{
     $sql = "SELECT COUNT(1) FROM Clients WHERE email = :email";
     $statement = $pdo->prepare($sql);
     $statement->execute([
@@ -28,7 +31,8 @@ function CheckClientsReg($pdo, $email){
     return $statement->fetchColumn() > 0;
 }
 
-function CheckClientAuth($pdo, $name, $password){
+function CheckClientAuth($pdo, $name, $password)
+{
     $sql = "SELECT name, password, role FROM Clients WHERE name = :name  LIMIT 1";
     $statement = $pdo->prepare($sql);
     $statement->execute([
@@ -38,13 +42,14 @@ function CheckClientAuth($pdo, $name, $password){
     if ($users && password_verify($password, $users['password'])) {
         return $users;
     }
-return false;        
+    return false;
 }
 
 /*
 Все что связно с продуктами
 */
-function selectAllProduct($pdo){
+function selectAllProduct($pdo)
+{
     $sql = "SELECT
                 Product.id,
                 Product.name,
@@ -62,7 +67,8 @@ function selectAllProduct($pdo){
 Все что связно с категориями
 */
 
-function selectAllCategory($pdo){
+function selectAllCategory($pdo)
+{
     $sql = "SELECT * FROM Product_category";
     $statement = $pdo->prepare($sql);
     $statement->execute();

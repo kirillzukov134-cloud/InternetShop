@@ -15,7 +15,7 @@ $password_confirm = $_POST['password_confirm'];
 */
 
 // 1. Проверка на пустые поля
-if(!$name || !$phone || !$email || !$password || !$password_confirm){
+if (!$name || !$phone || !$email || !$password || !$password_confirm) {
     $_SESSION['msg-error'] = 'Все поля должны быть заполнены';
     redirect('/register.php');
     exit;
