@@ -29,7 +29,7 @@ session_start();
                     <a class="btns" href="#">Все заказы</a>
                 <?php else: ?>
                     <!-- Для обычного пользователя -->
-                    <a class="btns" href="products.php">Товары</a>
+                    <a class="btns" href="product.php">Товары</a>
                     <a class="btns" href="categories.php">Категории</a>
                     <a class="btns" href="#">Оформить заказ</a>
                     <a class="btns" href="#">Мои заказы</a>
