@@ -21,6 +21,18 @@ function insertUsers($pdo, $name, $email, $phone, $password, $role = 'User')
     ]);
 }
 
+//Добавление продукта (product.php)
+function insertProduct($pdo, $name, $price, $remains, $category_id){
+    $sql = "INSERT INTO Product (name, price, remains, category_id) VALUES (:name, :price, :remains, :category_id)";
+    $statement = $pdo->prepare($sql);
+    $statement->execute([
+        ':name' => $name,
+        ':price' => $price,
+        ':remains' => $remains,
+        ':category_id' =>$category_id
+    ]);
+}
+
 //Существует ли такой клиент?
 function CheckClientsReg($pdo, $email)
 {
@@ -82,6 +94,24 @@ function selectAllCategory($pdo)
 
 function selectAllUsers($pdo){
     $sql = "SELECT name, email, phone, role FROM Clients";
+    $statement = $pdo->prepare($sql);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+
+/*
+Выводит все заказы пользователей (только Админа)
+*/
+
+function selectAllOrders($pdo){
+    $sql = "SELECT
+                Orders.id,
+                Clients.name AS Клиент,
+                Orders.created_at AS Дата_создания_заказа,
+                Orders.total_amount AS Общая_сумма,
+                Orders.status AS Статус
+            FROM Orders
+            JOIN Clients ON Orders.client_id = Clients.id";
     $statement = $pdo->prepare($sql);
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);

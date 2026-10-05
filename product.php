@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once 'db.php';
 require 'function.php';
 $productAll = selectAllProduct($pdo);
@@ -17,14 +18,26 @@ $productAll = selectAllProduct($pdo);
     <?php include 'sidebar.php'; ?>
     <main class="content">
         <h1 class="name-chapter">Раздел с товарами</h1>
+
+        <?php if($_SESSION['user']['role'] === 'Admin'): ?>
+            <a class="btn-add" href="add_product.php">Добавить продукт</a>
+            <div class="search">
+                <input type="text" name="name" class="input-search" value="" placeholder="Поиск по названию">
+                <a href="#" class="btn-search">Найти</a>
+            </div>
+        <?php endif; ?>
+
         <table>
             <thead>
                 <tr>
                     <th>Номер товара</th>
                     <th>Название товара</th>
-                    <th>Цена товара</th>
+                    <th>Цена товара (за шт.)</th>
                     <th>Количество товара</th>
                     <th>Категория товара</th>
+                <?php if($_SESSION['user']['role'] === 'Admin'): ?>
+                    <th>Действия</th>
+                <?php endif; ?>
                 </tr>
             </thead>
             <tbody>
@@ -35,6 +48,12 @@ $productAll = selectAllProduct($pdo);
                         <th><?php echo $product['price'] . ' руб.' ?></th>
                         <th><?php echo $product['remains'] . 'шт.' ?></th>
                         <th><?php echo $product['category_name'] ?></th>
+                        <th>
+                        <?php if($_SESSION['user']['role'] === 'Admin'): ?>
+                            <a href="#" class="btn-switching">Изменить товар |</a>
+                            <a href="#" class="btn-switching">Удалить товар</a>
+                        <?php endif; ?>
+                        </th>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
