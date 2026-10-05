@@ -16,7 +16,7 @@ $categoriesAll = selectAllCategory($pdo);
 <body class="with-product">
     <?php include 'sidebar.php'; ?>
     <main class="content">
-        <h1 class="name-chapter">Раздел с товарами</h1>
+        <h1 class="name-chapter">Категории</h1>
         <table>
             <thead>
                 <tr>

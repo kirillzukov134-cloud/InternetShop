@@ -23,7 +23,7 @@ session_start();
                     <!-- Только для админа -->
                     <a class="btns" href="product.php">Товары</a>
                     <a class="btns" href="categories.php">Категории</a>
-                    <a class="btns" href="users.php">Пользователи</a>
+                    <a class="btns" href="clients.php">Пользователи</a>
                     <a class="btns" href="#">Добавить товар</a>
                     <a class="btns" href="#">Добавить категорию</a>
                     <a class="btns" href="#">Все заказы</a>

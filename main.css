@@ -98,6 +98,17 @@ a.btns:hover {
     color: #ffffff;
 }
 
+a.btn-switching{
+    color: #665e5e;
+    font-size: 17px;
+    /* text-decoration: none; */
+    transition: color 0.15 ease
+}
+
+.btn-switching:hover{
+    color: #1c1c1c;
+}
+
 div.sidebar {
     border: none;
 }
@@ -144,7 +155,7 @@ h1.name-chapter {
     display: flex;
     flex-direction: column;
     padding: 12px 16px 0;
-    margin-top: 240px;
+    margin-top: auto;
     gap: 10px;
 }
 

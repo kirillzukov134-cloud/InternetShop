@@ -17,14 +17,14 @@ if($user){
     ];
 
     if($user['role'] === 'Admin'){
-        redirect('/sidebar.php');
+        redirect('sidebar.php');
         exit;
     }else{
-        redirect('./sidebar.php');
+        redirect('sidebar.php');
         exit;
     }
 }else{
     $_SESSION['msg-error'] = 'Неверное имя пользователя или пароль';
-    redirect('/auth.php');
+    redirect('auth.php');
 }
 

@@ -8,15 +8,16 @@ function redirect($path)
 }
 
 //Добавление пользователя (регистрация)
-function insertUsers($pdo, $name, $email, $phone, $password)
+function insertUsers($pdo, $name, $email, $phone, $password, $role = 'User')
 {
-    $sql = "INSERT INTO Clients (name, email, phone, password) VALUES (:name, :email, :phone, :password)";
+    $sql = "INSERT INTO Clients (name, email, phone, password, role) VALUES (:name, :email, :phone, :password, :role)";
     $statement = $pdo->prepare($sql);
     return $statement->execute([
         ':name' => $name,
         ':email' => $email,
         ':phone' => $phone,
-        ':password' => $password
+        ':password' => $password,
+        ':role' => $role
     ]);
 }
 
@@ -70,6 +71,17 @@ function selectAllProduct($pdo)
 function selectAllCategory($pdo)
 {
     $sql = "SELECT * FROM Product_category";
+    $statement = $pdo->prepare($sql);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+
+/*
+Все что связано с клиентами (пользователи)
+*/
+
+function selectAllUsers($pdo){
+    $sql = "SELECT name, email, phone, role FROM Clients";
     $statement = $pdo->prepare($sql);
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
