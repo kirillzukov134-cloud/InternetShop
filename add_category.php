@@ -9,7 +9,7 @@
     <?php include 'sidebar.php';?>
     <form class="form-filling" action="add_category_logic.php" method="post">
         <lable class="form-name"> Название категории
-            <input class="fill_line" type="text" name="name" placeholder="Введите название категории">
+            <input class="fill_line" type="text" name="category" placeholder="Введите название категории">
         </lable>
         <button class="btn-add" type="submit">Добавить категорию</button>
         <p>

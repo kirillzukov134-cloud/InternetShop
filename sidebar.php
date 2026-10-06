@@ -23,7 +23,7 @@ session_start();
                     <!-- Для админа -->
                     <a class="btns" href="product.php">Товары</a>
                     <a class="btns" href="categories.php">Категории</a>
-                    <a class="btns" href="clients.php">Пользователи</a>
+                    <!-- <a class="btns" href="clients.php">Пользователи</a> -->
                     <a class="btns" href="add_product.php">Добавить товар</a>
                     <a class="btns" href="add_category.php">Добавить категорию</a>
                     <!-- <a class="btns" href="orders.php">Добавить заказ</a> -->
@@ -39,9 +39,9 @@ session_start();
         </div>
         <div class="sidebar-footer">
         <?php if($_SESSION['user']['role'] === 'Admin'): ?>
-            <a href="#">Пользователи</a>
+            <a href="users.php">Пользователи</a>
         <?php endif; ?>
-            <a href="#">Мой профиль</a>
+            <a href="profile.php">Мой профиль</a>
             <a href="logout.php">Выход</a>
         </div>
     </aside>

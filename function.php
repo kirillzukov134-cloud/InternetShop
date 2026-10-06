@@ -25,11 +25,19 @@ function insertUsers($pdo, $name, $email, $phone, $password, $role = 'User')
 function insertProduct($pdo, $name, $price, $remains, $category_id){
     $sql = "INSERT INTO Product (name, price, remains, category_id) VALUES (:name, :price, :remains, :category_id)";
     $statement = $pdo->prepare($sql);
-    $statement->execute([
+    return $statement->execute([
         ':name' => $name,
         ':price' => $price,
         ':remains' => $remains,
         ':category_id' =>$category_id
+    ]);
+}
+
+function insertCategory($pdo, $category){
+    $sql = "INSERT INTO Product_category (category) VALUES (:category)";
+    $statement = $pdo->prepare($sql);
+    return $statement->execute([
+        ':category' => $category
     ]);
 }
 
@@ -46,7 +54,7 @@ function CheckClientsReg($pdo, $email)
 
 function CheckClientAuth($pdo, $name, $password)
 {
-    $sql = "SELECT name, password, role FROM Clients WHERE name = :name  LIMIT 1";
+    $sql = "SELECT id, name, password, role FROM Clients WHERE name = :name  LIMIT 1";
     $statement = $pdo->prepare($sql);
     $statement->execute([
         ':name' => $name,
@@ -71,6 +79,14 @@ function selectAllProduct($pdo)
                 Product_category.category AS category_name
             FROM Product
             JOIN Product_category ON Product.category_id = Product_category.id";
+    $statement = $pdo->prepare($sql);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function selectAllProductID($pdo)
+{
+    $sql = "SELECT * FROM Product";
     $statement = $pdo->prepare($sql);
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -120,7 +136,16 @@ function selectAllOrders($pdo){
 function deleteProduct($pdo, $id){
     $sql = "DELETE FROM Product WHERE id = :id";
     $statement = $pdo->prepare($sql);
-    $statement->execute([
+    return $statement->execute([
+        ':id' => $id
+    ]);
+}
+
+
+function deleteCategory($pdo, $id){
+    $sql = "DELETE FROM Product_category WHERE id = :id";
+    $statement = $pdo->prepare($sql);
+    return $statement->execute([
         ':id' => $id
     ]);
 }

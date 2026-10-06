@@ -161,6 +161,19 @@ div.search{
     gap: 5px;
 }
 
+div.card{
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #a79696;
+    border-radius: 8px;
+    padding: 12px;
+    float: left;
+    margin: 17px;
+}
+
+p.name-field{
+    border: 1px solid #cec5c5;
+}
 .sidebar-btns {
     display: flex;
     flex-direction: column;
@@ -169,7 +182,7 @@ div.search{
     flex-grow: 1;
 }
 
-body.with-product {
+body.with-product{
     display: flex;
     flex-direction: row;
     min-height: 100vh;

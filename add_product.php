@@ -1,3 +1,8 @@
+<?php
+require_once 'db.php';
+require 'function.php';
+$addCategory = selectAllCategory($pdo);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,18 +17,18 @@
         <lable class="form-name"> Название товара
             <input class="fill_line" type="text" name="name" placeholder="Введите название продукта">
         </lable>
-        <lable class="form-name"> Цена
+        <lable class="form-name"> Цена (руб.)
             <input class="fill_line" type="number" name="price" placeholder="Введите цену">
         </lable>
-        <lable class="form-name"> Количество
+        <lable class="form-name"> Количество (шт.)
             <input class="fill_line" type="number" name="remains" placeholder="Укажите количество (шт.)">
         </lable>
         <lable class="form-name"> Категория
-            <select class="option-category">
+            <select class="option-category" name="category_id">
                 <option value="">Выберите категорию</option>
-                <option value="1">Одежда</option>
-                <option value="2">Электроника</option>
-                <option value="3">Книга</option>
+                <?php foreach($addCategory as $category): ?>
+                <option value="<?php echo $category['id'] ?>"> <?php echo $category['category'] ?></option>
+                <?php endforeach; ?>
             </select>
         </lable>
         <button class="btn-add" type="submit">Добавить продукт</button>
