@@ -116,3 +116,11 @@ function selectAllOrders($pdo){
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
+
+function deleteProduct($pdo, $id){
+    $sql = "DELETE FROM Product WHERE id = :id";
+    $statement = $pdo->prepare($sql);
+    $statement->execute([
+        ':id' => $id
+    ]);
+}
