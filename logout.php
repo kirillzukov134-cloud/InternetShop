@@ -1,5 +1,5 @@
 <?php
 require 'function.php';
-redirect('/auth.php');
+redirect('auth.php');
 exit;
 ?>

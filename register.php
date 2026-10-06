@@ -12,7 +12,7 @@ session_start();
 </head>
 
 <body class="form">
-    <form action="/signup.php" method="post">
+    <form action="signup.php" method="post">
         <label> Имя
             <input type="text" name="name" placeholder="Введите имя">
         </label>

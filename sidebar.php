@@ -19,24 +19,28 @@ session_start();
         <!-- Меню кнопок -->
         <div class="sidebar">
             <div class="sidebar-btns">
-                <?php if (($_SESSION['user']['role']) === 'Admin'): ?>
-                    <!-- Только для админа -->
+                <?php if ($_SESSION['user']['role'] === 'Admin'): ?>
+                    <!-- Для админа -->
                     <a class="btns" href="product.php">Товары</a>
                     <a class="btns" href="categories.php">Категории</a>
-                    <a class="btns" href="users.php">Пользователи</a>
-                    <a class="btns" href="#">Добавить товар</a>
-                    <a class="btns" href="#">Добавить категорию</a>
-                    <a class="btns" href="#">Все заказы</a>
+                    <a class="btns" href="clients.php">Пользователи</a>
+                    <a class="btns" href="add_product.php">Добавить товар</a>
+                    <a class="btns" href="add_category.php">Добавить категорию</a>
+                    <!-- <a class="btns" href="orders.php">Добавить заказ</a> -->
+                    <a class="btns" href="orders.php">Все заказы</a>
                 <?php else: ?>
-                    <!-- Для обычного пользователя -->
+                    <!-- Для пользователя -->
                     <a class="btns" href="product.php">Товары</a>
                     <a class="btns" href="categories.php">Категории</a>
                     <a class="btns" href="#">Оформить заказ</a>
-                    <a class="btns" href="#">Мои заказы</a>
+                    <a class="btns" href="orders.php">Мои заказы</a>
                 <?php endif; ?>
             </div>
         </div>
         <div class="sidebar-footer">
+        <?php if($_SESSION['user']['role'] === 'Admin'): ?>
+            <a href="#">Пользователи</a>
+        <?php endif; ?>
             <a href="#">Мой профиль</a>
             <a href="logout.php">Выход</a>
         </div>

@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once 'db.php';
 require 'function.php';
 $categoriesAll = selectAllCategory($pdo);
@@ -12,16 +13,21 @@ $categoriesAll = selectAllCategory($pdo);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="main.css">
 </head>
-
 <body class="with-product">
     <?php include 'sidebar.php'; ?>
     <main class="content">
-        <h1 class="name-chapter">Раздел с товарами</h1>
+        <h1 class="name-chapter">Категории</h1>
+    <?php if($_SESSION['user']['role'] === 'Admin'): ?>
+        <a class="btn-add" href="add_product.php">Добавить категорию</a>
+    <?php endif; ?>
         <table>
             <thead>
                 <tr>
                     <th>Номер категории</th>
                     <th>Название категории</th>
+                <?php if($_SESSION['user']['role'] === 'Admin'): ?>
+                    <th>Действие</th>
+                <?php endif; ?>
                 </tr>
             </thead>
             <tbody>
@@ -29,6 +35,12 @@ $categoriesAll = selectAllCategory($pdo);
                     <tr>
                         <th><?php echo $category['id'] ?></th>
                         <th><?php echo $category['category'] ?></th>
+                        <?php if($_SESSION['user']['role'] === 'Admin'): ?>
+                        <th>
+                            <a class="btn-switching" href="#">Редактировать |</a>
+                            <a class="btn-switching" href="#">Удалить</a>
+                        </th>
+                        <?php endif; ?>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
