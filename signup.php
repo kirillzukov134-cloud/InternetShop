@@ -31,8 +31,11 @@ if (CheckClientsReg($pdo, $email)) {
     exit;
 }
 
+insertClients($pdo, $name, $email, $phone);
+$client_id = $pdo->lastInsertId();
+
 $passwordHash = password_hash($password, PASSWORD_DEFAULT);
-if (insertUsers($pdo, $name, $email, $phone, $passwordHash, $role)) {
+if (insertUsers($pdo, $name, $email, $phone, $passwordHash, $role, $client_id)) {
     $_SESSION['msg-success'] = 'Успешная регистрация';
     redirect('auth.php');
     exit;

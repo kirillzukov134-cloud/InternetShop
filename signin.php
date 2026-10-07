@@ -13,7 +13,8 @@ if($user){
     $_SESSION['user'] = [
         'id' => $user['id'],
         'name' => $user['name'],
-        'role' => $user['role']
+        'role' => $user['role'],
+        'client_id' => $user['client_id']
     ];
 
     if($user['role'] === 'Admin'){

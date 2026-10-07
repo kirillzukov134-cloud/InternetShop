@@ -20,9 +20,9 @@ $userAll = selectAllUsers($pdo);
             <thead>
                 <tr>
                     <th>Имя пользователя</th>
-                    <th>Почта</th>
+                    <!-- <th>Почта</th>
                     <th>Номер телефона</th>
-                    <th>Роль</th>
+                    <th>Роль</th> -->
                     <th>Действия</th>
                 </tr>
             </thead>
@@ -30,9 +30,9 @@ $userAll = selectAllUsers($pdo);
                 <?php foreach ($userAll as $user): ?>
                     <tr>
                         <th><?php echo $user['name'] ?></th>
-                        <th><?php echo $user['email'] ?></th>
+                        <!-- <th><?php echo $user['email'] ?></th>
                         <th><?php echo $user['phone'] ?></th>
-                        <th><?php echo $user['role'] ?></th>
+                        <th><?php echo $user['role'] ?></th> -->
                         <th>
                             <a class="btn-switching" href="#">Редактировать |</a>
                             <a class="btn-switching" href="#">Удаление</a>

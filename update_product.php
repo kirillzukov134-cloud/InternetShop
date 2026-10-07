@@ -1,35 +1,48 @@
+<?php
+require_once 'db.php';
+require 'function.php';
+
+$id = $_GET['id'];
+$product = getProductById($pdo, $id);
+$categories = selectAllCategory($pdo);
+?>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Редактирование товара</title>
+    <link rel="stylesheet" href="main.css">
+    <title>Изменить статус</title>
 </head>
-<body>
-    <?php include 'sidebar.php';?>
-        <!-- <h1 class="name-chapter">Форма добавления товара</h1> -->
-    <form class="form-filling" action="update_product_logic.php" method="post">
-        <lable class="form-name"> Название товара
-            <input class="fill_line" type="text" name="name" placeholder="Введите название продукта">
-        </lable>
-        <lable class="form-name"> Цена
-            <input class="fill_line" type="number" name="price" placeholder="Введите цену">
-        </lable>
-        <lable class="form-name"> Количество
-            <input class="fill_line" type="number" name="remains" placeholder="Укажите количество (шт.)">
-        </lable>
-        <lable class="form-name"> Категория
-            <select class="option-category">
-                <option value="">Выберите категорию</option>
-                <option value="1">Одежда</option>
-                <option value="2">Электроника</option>
-                <option value="3">Книга</option>
+<body class="with-product">
+    <?php include 'sidebar.php'; ?>
+    <main class="content">
+        <h1 class="name-chapter">Изменить продукт под номер №<?php echo $product['id'] ?></h1>
+
+        <form class="form-filling" action="update_product_logic.php" method="post"  style="width: 350px">
+            <input type="hidden" name="id" value="<?php echo $product['id'] ?>">
+        <label> Название
+            <input type="text" name="name" value="<?php echo $product['name'] ?>" placeholder="Введите название">
+        </label>
+        <label> Цена
+            <input type="number" name="price" value="<?php echo $product['price'] ?>" placeholder="Введите цену">
+        </label>
+        <label> Остаток
+            <input type="number" name="remains" value="<?php echo $product['remains'] ?>" placeholder="Введите остаток">
+        </label>
+        <label> Категория
+            <select name="category_id">
+                <?php foreach ($categories as $category): ?>
+                    <option value="<?php echo $category['id'] ?>"
+                        <?php echo $category['id'] == $product['category_id']?>>
+                        <?php echo $category['category'] ?>
+                    </option>
+                <?php endforeach; ?>
             </select>
-        </lable>
-        <button class="btn-add" type="submit">Добавить продукт</button>
-        <p>
-            Передумали? <a href="product.php">Назад</a>    
-        </p>
-    </form>
+        </label>
+            <button type="submit" class="btn-add">Изменить продукт</button>
+            <p>Передумали? <a href="product.php">Назад</a></p>
+        </form>
+    </main>
 </body>
 </html>

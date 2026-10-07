@@ -2,58 +2,69 @@
 session_start();
 require_once 'db.php';
 require 'function.php';
-$ordersAll = selectAllOrders($pdo);
+
+$products = selectAllProduct($pdo);
+$clients = selectAllClients($pdo);
 ?>
-
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="main.css">
+    <title>Оформить заказ</title>
 </head>
-
 <body class="with-product">
     <?php include 'sidebar.php'; ?>
     <main class="content">
-    <?php if($_SESSION['user']['role'] === 'Admin'): ?>
-        <h1 class="name-chapter">Все заказы клиентов</h1>
-    <?php else: ?>
-        <h1 class="name-chapter">Мои заказы</h1>
-    <?php endif; ?>     
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Клиент</th>
-                    <th>Дата создания товара</th>
-                    <th>Общая сумма</th>
-                    <th>Статус</th>
-                <?php if($_SESSION['user']['role'] === 'Admin'): ?>
-                    <th>Действия</th>
-                <?php endif; ?>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($ordersAll as $orders): ?>
-                    <tr>
-                        <th><?php echo $orders['id'] ?></th>
-                        <th><?php echo $orders['Клиент'] ?></th>
-                        <th><?php echo $orders['Дата_создания_заказа'] ?></th>
-                        <th><?php echo $orders['Общая_сумма'] . ' руб.' ?></th>
-                        <th><?php echo $orders['Статус'] ?></th>
-                        <th>
-                        <?php if($_SESSION['user']['role'] === 'Admin'): ?>
-                            <a href="#" class="btn-switching">Изменить товар |</a>
-                            <a href="#" class="btn-switching">Удалить товар</a>
-                        <?php endif; ?>
-                        </th>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </main>
-</body>
+    <h1 class="name-chapter">Оформление заказа</h1>
+        <?php
+            if (!empty($_SESSION['msg-error']))
+                echo '<p class="msg-error">' . $_SESSION['msg-error'] . '</p>';
+            unset($_SESSION['msg-error']);
+        ?>
+    <form class="form-filling" action="orders_logic.php" method="post">
+        <?php if ($_SESSION['user']['role'] === 'Admin'): ?>
+            <label class="form-name"> Клиент
+                <select name="client_id" class="option-category" required>
+                    <option value="">Выберите клиента</option>
+                    <?php foreach ($clients as $client): ?>
+                        <option value="<?php echo $client['id'] ?>">
+                            <?php echo $client['name'] ?>
+                    </option>
+                    <?php endforeach; ?>
+                </select>
+            </label>
+        <?php else: ?>
+            <input type="hidden" name="client_id" value="<?php echo $_SESSION['user']['client_id'] ?>">
+            <p>Клиент: <b><?php echo $_SESSION['user']['name'] ?></b></p>
+        <?php endif; ?>
+        <div id="items">
+            <div class="item-row">
+                <label>Товар:
+                    <select name="product_id" class="option-category" required>
+                        <option value="">Выберите товар</option>
+                        <?php foreach ($products as $product): ?>
+                            <option value="<?= $product['id'] ?>" 
+                                    data-price="<?= $product['price'] ?>"
+                                    data-stock="<?= $product['remains'] ?>">
+                                <?php echo $product['name'] ?> 
+                                <?php echo $product['price'] ?>рублей, остаток: 
+                                <?php echo $product['remains'] ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </label>
+                <label>Кол-во:
+                    <input type="number" name="quantity" required>
+                </label>
+            </div>
+        </div>
 
+        <div class="form-buttons">
+            <button type="submit" class="btn-primary">Оформить заказ</button>
+            <a href="ordersInfo.php" class="btn-secondary">Отмена</a>
+        </div>
+    </form>
+</main>
+</body>
 </html>

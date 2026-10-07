@@ -8,16 +8,27 @@ function redirect($path)
 }
 
 //Добавление пользователя (регистрация)
-function insertUsers($pdo, $name, $email, $phone, $password, $role = 'User')
+function insertUsers($pdo, $name, $email, $phone, $password, $role = 'User', $client_id = null)
 {
-    $sql = "INSERT INTO Users (name, email, phone, password, role) VALUES (:name, :email, :phone, :password, :role)";
+    $sql = "INSERT INTO Users (name, email, phone, password, role, client_id) VALUES (:name, :email, :phone, :password, :role, :client_id)";
+    $statement = $pdo->prepare($sql);
+    return $statement->execute([
+        ':name'      => $name,
+        ':email'     => $email,
+        ':phone'     => $phone,
+        ':password'  => $password,
+        ':role'      => $role,
+        ':client_id' => $client_id
+    ]);
+}
+
+function insertClients($pdo, $name, $email, $phone){
+    $sql = "INSERT INTO Clients (name, email, phone) VALUES (:name, :email, :phone)";
     $statement = $pdo->prepare($sql);
     return $statement->execute([
         ':name' => $name,
         ':email' => $email,
         ':phone' => $phone,
-        ':password' => $password,
-        ':role' => $role
     ]);
 }
 
@@ -41,6 +52,57 @@ function insertCategory($pdo, $category){
     ]);
 }
 
+function addOrder($pdo, $client_id){
+    $sql = "INSERT INTO Orders (client_id, created_at, total_amount, status) VALUES (:client_id, NOW(), 0, 'Активный')";
+    $statement = $pdo->prepare($sql);
+    $statement->execute([
+        ':client_id' => $client_id
+    ]);
+    return $pdo->lastInsertId();
+}
+
+function getOrderById($pdo, $id){
+    $sql = "SELECT * FROM Orders WHERE id = :id LIMIT 1";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        ':id' => $id
+    ]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+function addOrderPosition($pdo, $order_id, $product_id, $qty, $price){
+    $sql = "INSERT INTO Order_position (order_id, product_id, quanitity, purchase_at_price) 
+            VALUES (:oid, :pid, :qty, :price)";
+    $stmt = $pdo->prepare($sql);
+    return $stmt->execute([
+        ':oid' => $order_id,
+        ':pid' => $product_id,
+        ':qty' => $qty,
+        ':price' => $price
+    ]);
+}
+
+function descreaseRemainder($pdo, $product_id, $qty){
+    $sql = "UPDATE Product SET remains = remains - :quantity WHERE id = :id";
+    $stmt = $pdo->prepare($sql);
+    return $stmt->execute([':quantity' => $qty, ':id' => $product_id]);
+}
+
+function updateSumm($pdo, $order_id, $total){
+    $sql = "UPDATE Orders SET total_amount = :total WHERE id = :id";
+    $stmt = $pdo->prepare($sql);
+    return $stmt->execute([':total' => $total, ':id' => $order_id]);
+}
+
+function getProductById($pdo, $id){
+    $sql = "SELECT * FROM Product WHERE id = :id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        ':id' => $id
+    ]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
 //Существует ли такой клиент?
 function CheckClientsReg($pdo, $email)
 {
@@ -54,16 +116,25 @@ function CheckClientsReg($pdo, $email)
 
 function CheckClientAuth($pdo, $name, $password)
 {
-    $sql = "SELECT id, name, password, role FROM Users WHERE name = :name  LIMIT 1";
+    $sql = "SELECT id, name, password, role, client_id FROM Users WHERE name = :name";
     $statement = $pdo->prepare($sql);
     $statement->execute([
-        ':name' => $name,
+        ':name' => $name
     ]);
     $users = $statement->fetch(PDO::FETCH_ASSOC);
     if ($users && password_verify($password, $users['password'])) {
         return $users;
     }
     return false;
+}
+
+function selectPrice($pdo, $product_id){
+    $sql = 'SELECT price FROM Product WHERE id = :id';
+    $statement = $pdo->prepare($sql);
+    $statement->execute([
+        ':id' => $product_id
+    ]);
+    return $statement->fetch(PDO::FETCH_ASSOC);
 }
 
 /*
@@ -125,7 +196,7 @@ function filterationProduct($pdo, $product_id){
                     Product_category.category AS category_name
                 FROM Product
                 JOIN Product_category ON Product.category_id = Product_category.id
-                WHERE LOWER(Product.name) = LOWER(:product_id)';
+                WHERE LOWER(Product.name) LIKE LOWER(:product_id)';
         $statement = $pdo->prepare($sql);
         $statement->execute([
             ':product_id' => '%' .  $product_id . '%'
@@ -156,6 +227,12 @@ function selectAllClients($pdo){
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
+function selectAllClient($pdo){
+    $sql = "SELECT name FROM Clients";
+    $statement = $pdo->prepare($sql);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
 function selectAllUsers($pdo){
     $sql = "SELECT id, name, email, phone, role FROM Users";
     $statement = $pdo->prepare($sql);
@@ -179,6 +256,27 @@ function selectAllOrders($pdo){
     $statement = $pdo->prepare($sql);
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function updateOrderStatus($pdo, $id, $status){
+    $sql = "UPDATE `Orders` SET `status` = :status WHERE id = :id";
+    $statement = $pdo->prepare($sql);
+    return $statement->execute([
+        ":status" => $status,
+        ":id"     => $id
+    ]);
+}
+
+function updateProduct($pdo, $id, $name, $price, $remains, $category_id){
+    $sql = "UPDATE Product SET name = :name, price = :price, remains = :remains, category_id = :category_id WHERE id = :id";
+    $stmt = $pdo->prepare($sql);
+    return $stmt->execute([
+        ':name' => $name,
+        ':price' => $price,
+        ':remains' => $remains,
+        ':category_id' => $category_id,
+        ':id' => $id
+    ]);
 }
 
 function deleteProduct($pdo, $id){

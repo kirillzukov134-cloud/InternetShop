@@ -4,11 +4,15 @@ require_once 'db.php';
 require 'function.php';
 $product_id = $_POST['product_id'];
 $category_id = $_POST['category_id'];
+
 if (!empty($category_id)) {
     $productAll = filtrationCategory($pdo, $category_id);
-} else {
+} elseif(!empty($product_id)){
+    $productAll = filterationProduct($pdo, $product_id);
+}else {
     $productAll = selectAllProduct($pdo);  
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -29,7 +33,7 @@ if (!empty($category_id)) {
             <div class="search">
                 <form method="POST">
                     <input type="text" name="category_id" class="input-search-category" value="<?php echo $category_id?>" placeholder="Введите категорию">
-                    <input type="text" name="category_id" class="input-search-product" value="<?php echo $product_id?>" placeholder="Введите товар">
+                    <input type="text" name="product_id" class="input-search-product" value="<?php echo $product_id?>" placeholder="Введите товар">
                     <button class="btn-search" type="submit">Найти</button>
                     <a href="product.php" class="btn-search">Сбросить</a>
                 </form>

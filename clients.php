@@ -16,6 +16,9 @@ $clientsAll = selectAllClients($pdo);
     <?php include 'sidebar.php'; ?>
     <main class="content">
         <h1 class="name-chapter">Клиенты</h1>
+            <div class="form-buttons">
+                <a href="add_client.php" class="btn-primary">Добавить клиента</a>
+            </div>
         <table>
             <thead>
                 <tr>
