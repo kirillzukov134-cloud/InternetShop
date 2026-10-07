@@ -4,25 +4,21 @@ require_once 'db.php';
 require 'function.php';
 
 $name = $_POST['name'];
-// $login = $_POST['login'];
 $phone = $_POST['phone'];
 $email = $_POST['email'];
 $password = $_POST['password'];
 $password_confirm = $_POST['password_confirm'];
-
-/*
-Валидация...
-*/
+$role = 'User';
 
 // 1. Проверка на пустые поля
-if (!$name || !$phone || !$email || !$password || !$password_confirm) {
+if(empty($name) || empty($phone) || empty($email) || empty($password) || empty($password_confirm)) {
     $_SESSION['msg-error'] = 'Все поля должны быть заполнены';
     redirect('register.php');
     exit;
 }
 
 // 2. Проверка на совпадение паролей
-if ($password != $password_confirm) {
+if($password !== $password_confirm){
     $_SESSION['msg-error'] = 'Пароли не совпадают';
     redirect('register.php');
     exit;
@@ -35,7 +31,6 @@ if (CheckClientsReg($pdo, $email)) {
     exit;
 }
 
-// 4. Хеширование пароля и добавление клиента
 $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 if (insertUsers($pdo, $name, $email, $phone, $passwordHash, $role)) {
     $_SESSION['msg-success'] = 'Успешная регистрация';
@@ -46,7 +41,3 @@ if (insertUsers($pdo, $name, $email, $phone, $passwordHash, $role)) {
     redirect('register.php');
     exit;
 }
-
-
-
-

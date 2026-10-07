@@ -28,6 +28,12 @@ input {
     width: 100%;
 }
 
+/* input.input-search-category{
+    align-items: center;
+    justify-content: center;
+    float: right;
+} */
+
 p.msg-error {
     border: 2px solid #ff9100;
     border-radius: 5px;
@@ -117,7 +123,7 @@ a.btn-add{
     transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
-a.btn-search    {
+button.btn-search    {
     color: #2a2a2a;
 }
 
@@ -128,7 +134,6 @@ a.btn-add:hover{
 }
 
 a.btn-search{
-        text-decoration: underline;
     white-space: nowrap;   /* чтобы «Найти» не переносилось */
     cursor: pointer;
 }

@@ -8,7 +8,7 @@
 <body>
     <?php include 'sidebar.php';?>
         <!-- <h1 class="name-chapter">Форма добавления товара</h1> -->
-    <form class="form-filling" action="add_update_logic.php" method="post">
+    <form class="form-filling" action="update_product_logic.php" method="post">
         <lable class="form-name"> Название товара
             <input class="fill_line" type="text" name="name" placeholder="Введите название продукта">
         </lable>

@@ -6,11 +6,11 @@
     <title>Добавление товара</title>
 </head>
 <body>
-    <?php include 'sidebar.php';?>
+    <?php include 'sidebar.php'; ?>
     <form class="form-filling" action="add_category_logic.php" method="post">
-        <lable class="form-name"> Название категории
+        <label class="form-name"> Название категории
             <input class="fill_line" type="text" name="category" placeholder="Введите название категории">
-        </lable>
+        </label>
         <button class="btn-add" type="submit">Добавить категорию</button>
         <p>
             Передумали? <a href="categories.php">Назад</a>    

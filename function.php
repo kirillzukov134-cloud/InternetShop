@@ -10,7 +10,7 @@ function redirect($path)
 //Добавление пользователя (регистрация)
 function insertUsers($pdo, $name, $email, $phone, $password, $role = 'User')
 {
-    $sql = "INSERT INTO Clients (name, email, phone, password, role) VALUES (:name, :email, :phone, :password, :role)";
+    $sql = "INSERT INTO Users (name, email, phone, password, role) VALUES (:name, :email, :phone, :password, :role)";
     $statement = $pdo->prepare($sql);
     return $statement->execute([
         ':name' => $name,
@@ -34,7 +34,7 @@ function insertProduct($pdo, $name, $price, $remains, $category_id){
 }
 
 function insertCategory($pdo, $category){
-    $sql = "INSERT INTO Product_category (category) VALUES (:category)";
+    $sql = "INSERT INTO `Product_category`(`category`) VALUES (:category)";
     $statement = $pdo->prepare($sql);
     return $statement->execute([
         ':category' => $category
@@ -54,7 +54,7 @@ function CheckClientsReg($pdo, $email)
 
 function CheckClientAuth($pdo, $name, $password)
 {
-    $sql = "SELECT id, name, password, role FROM Clients WHERE name = :name  LIMIT 1";
+    $sql = "SELECT id, name, password, role FROM Users WHERE name = :name  LIMIT 1";
     $statement = $pdo->prepare($sql);
     $statement->execute([
         ':name' => $name,
@@ -84,11 +84,53 @@ function selectAllProduct($pdo)
     return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function selectAllProductID($pdo)
-{
-    $sql = "SELECT * FROM Product";
-    $statement = $pdo->prepare($sql);
-    $statement->execute();
+// function selectAllProductID($pdo)
+// {
+//     $sql = "SELECT * FROM Product";
+//     $statement = $pdo->prepare($sql);
+//     $statement->execute();
+//     return $statement->fetchAll(PDO::FETCH_ASSOC);
+// }
+
+function filtrationCategory($pdo, $category_id) {
+    if (empty($category_id)) {
+        selectAllProduct($pdo);
+    } else {
+        $sql = 'SELECT 
+                    Product.id, 
+                    Product.name, 
+                    Product.price, 
+                    Product.remains,
+                    Product_category.category AS category_name
+                FROM Product
+                JOIN Product_category ON Product.category_id = Product_category.id
+                WHERE Product_category.category LIKE :category_id';
+        $statement = $pdo->prepare($sql);
+        $statement->execute([
+            ':category_id' => '%' .  $category_id . '%'
+        ]);
+    }
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function filterationProduct($pdo, $product_id){
+    if(empty($product_id)){
+        selectAllProduct($pdo);
+    }else{
+        $sql = 'SELECT 
+                    Product.id, 
+                    Product.name, 
+                    Product.price, 
+                    Product.remains,
+                    Product_category.category AS category_name
+                FROM Product
+                JOIN Product_category ON Product.category_id = Product_category.id
+                WHERE LOWER(Product.name) = LOWER(:product_id)';
+        $statement = $pdo->prepare($sql);
+        $statement->execute([
+            ':product_id' => '%' .  $product_id . '%'
+        ]);
+    }
     return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
 
@@ -105,11 +147,17 @@ function selectAllCategory($pdo)
 }
 
 /*
-Все что связано с клиентами (пользователи)
+Все что связано с клиентами и пользователями
 */
 
+function selectAllClients($pdo){
+    $sql = "SELECT id, name, email, phone FROM Clients";
+    $statement = $pdo->prepare($sql);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
 function selectAllUsers($pdo){
-    $sql = "SELECT name, email, phone, role FROM Clients";
+    $sql = "SELECT id, name, email, phone, role FROM Users";
     $statement = $pdo->prepare($sql);
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);

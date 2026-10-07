@@ -5,6 +5,9 @@ require 'function.php';
 
 $category = $_POST['category'];
 
+// var_dump($category);
+// exit;
+
 if(insertCategory($pdo, $category)){
     redirect('categories.php');
     exit;

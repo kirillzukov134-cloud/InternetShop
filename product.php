@@ -2,7 +2,13 @@
 session_start();
 require_once 'db.php';
 require 'function.php';
-$productAll = selectAllProduct($pdo);
+$product_id = $_POST['product_id'];
+$category_id = $_POST['category_id'];
+if (!empty($category_id)) {
+    $productAll = filtrationCategory($pdo, $category_id);
+} else {
+    $productAll = selectAllProduct($pdo);  
+}
 ?>
 
 <!DOCTYPE html>
@@ -21,8 +27,12 @@ $productAll = selectAllProduct($pdo);
         <?php if($_SESSION['user']['role'] === 'Admin'): ?>
             <a class="btn-add" href="add_product.php">Добавить продукт</a>
             <div class="search">
-                <input type="text" name="name" class="input-search" value="" placeholder="Поиск по названию">
-                <a href="#" class="btn-search">Найти</a>
+                <form method="POST">
+                    <input type="text" name="category_id" class="input-search-category" value="<?php echo $category_id?>" placeholder="Введите категорию">
+                    <input type="text" name="category_id" class="input-search-product" value="<?php echo $product_id?>" placeholder="Введите товар">
+                    <button class="btn-search" type="submit">Найти</button>
+                    <a href="product.php" class="btn-search">Сбросить</a>
+                </form>
             </div>
         <?php endif; ?>
         <table>
@@ -41,27 +51,27 @@ $productAll = selectAllProduct($pdo);
             <tbody>
                 <?php foreach ($productAll as $product): ?>
                     <tr>
-                        <th><?php echo $product['id'] ?></th>
-                        <th><?php echo $product['name'] ?></th>
-                        <th><?php echo $product['price'] . ' руб.' ?></th>
-                        <th><?php echo $product['remains'] . 'шт.' ?></th>
-                        <th><?php echo $product['category_name'] ?></th>
-                        <th>
+                        <td><?php echo $product['id']; ?></td>
+                        <td><?php echo $product['name']; ?></td>
+                        <td><?php echo $product['price'] . ' руб.'; ?></td>
+                        <td><?php echo $product['remains'] . ' шт.'; ?></td>
+                        <td><?php echo $product['category_name']; ?></td>
+                        <td>
                         <?php if($_SESSION['user']['role'] === 'Admin'): ?>
-                            <a href="update_product.php" class="btn-switching">Изменить товар |</a>
-                            <a href="delete_product_logic.php?id=<?php echo $product['id'] ?>" class="btn-switching">Удалить товар</a>
+                            <a href="update_product.php?id=<?php echo $product['id']; ?>" class="btn-switching">Изменить товар |</a>
+                            <a href="delete_product_logic.php?id=<?php echo $product['id']; ?>" class="btn-switching">Удалить товар</a>
                         <?php endif; ?>
-                        </th>
+                        </td>
                     </tr>
-                <?php
-                    if (!empty($_SESSION['msg-error']))
-                        echo '<p class="msg-error">' . $_SESSION['msg-error'] . '</p>';
-                    unset($_SESSION['msg-error']);
-                ?>
                 <?php endforeach; ?>
             </tbody>
         </table>
+    <?php
+        if (!empty($_SESSION['msg-error'])) {
+            echo '<p class="msg-error">' . $_SESSION['msg-error'] . '</p>';
+            unset($_SESSION['msg-error']);
+        }
+    ?>
     </main>
 </body>
-
 </html>
