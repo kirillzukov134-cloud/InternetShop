@@ -37,7 +37,7 @@ $clientsAll = selectAllClients($pdo);
                         <th><?php echo $client['email'] ?></th>
                         <th><?php echo $client['phone'] ?></th>
                         <th>
-                            <a class="btn-switching" href="#">Редактировать |</a>
+                            <a class="btn-switching" href="update_client.php?id=<?php echo $client['id']; ?>">Редактировать |</a>
                             <a class="btn-switching" href="#">Удаление</a>
                         </th>
                     </tr>

@@ -27,6 +27,7 @@ session_start();
                     <a class="btns" href="add_product.php">Добавить товар</a>
                     <a class="btns" href="add_category.php">Добавить категорию</a>
                     <a class="btns" href="clients.php">Список всех клиентов</a>
+                    <a class="btns" href="orders.php">Оформить заказ</a>
                     <!-- <a class="btns" href="orders.php">Добавить заказ</a> -->
                     <a class="btns" href="ordersInfo.php">Все заказы</a>
                 <?php else: ?>

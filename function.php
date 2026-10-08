@@ -70,6 +70,24 @@ function getOrderById($pdo, $id){
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
+function getProductById($pdo, $id){
+    $sql = "SELECT * FROM Product WHERE id = :id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        ':id' => $id
+    ]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+function getClientById($pdo, $id){
+    $sql = "SELECT * FROM `Clients` WHERE id = :id";
+    $statement = $pdo->prepare($sql);
+    $statement->execute([
+        ':id' => $id
+    ]);
+    return $statement->fetch(PDO::FETCH_ASSOC);
+}
+
 function addOrderPosition($pdo, $order_id, $product_id, $qty, $price){
     $sql = "INSERT INTO Order_position (order_id, product_id, quanitity, purchase_at_price) 
             VALUES (:oid, :pid, :qty, :price)";
@@ -82,26 +100,25 @@ function addOrderPosition($pdo, $order_id, $product_id, $qty, $price){
     ]);
 }
 
-function descreaseRemainder($pdo, $product_id, $qty){
-    $sql = "UPDATE Product SET remains = remains - :quantity WHERE id = :id";
+function descreaseRemainder($pdo, $product_id, $quantity){
+    $sql = "UPDATE Product SET remains = remains - :quantity WHERE id = :id AND remains >= :quantity";
     $stmt = $pdo->prepare($sql);
-    return $stmt->execute([':quantity' => $qty, ':id' => $product_id]);
-}
-
-function updateSumm($pdo, $order_id, $total){
-    $sql = "UPDATE Orders SET total_amount = :total WHERE id = :id";
-    $stmt = $pdo->prepare($sql);
-    return $stmt->execute([':total' => $total, ':id' => $order_id]);
-}
-
-function getProductById($pdo, $id){
-    $sql = "SELECT * FROM Product WHERE id = :id";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([
-        ':id' => $id
+    return $stmt->execute([
+        ':quantity' => $quantity, 
+        ':id' => $product_id
     ]);
-    return $stmt->fetch(PDO::FETCH_ASSOC);
 }
+
+function updateSumm($pdo, $order_id, $total_amount){
+    $sql = "UPDATE Orders SET total_amount = :total_amount WHERE id = :id";
+    $stmt = $pdo->prepare($sql);
+    return $stmt->execute([
+        ':total_amount' => $total_amount, 
+        ':id' => $order_id
+    ]);
+}
+
+
 
 //Существует ли такой клиент?
 function CheckClientsReg($pdo, $email)
@@ -275,6 +292,17 @@ function updateProduct($pdo, $id, $name, $price, $remains, $category_id){
         ':price' => $price,
         ':remains' => $remains,
         ':category_id' => $category_id,
+        ':id' => $id
+    ]);
+}
+
+function updateClients($pdo, $id, $name, $email, $phone){
+    $sql = "UPDATE Clients SET name = :name, email = :email, phone = :phone WHERE id = :id";
+    $statement = $pdo->prepare($sql);
+    return $statement->execute([
+        ':name' => $name,
+        ':email' => $email,
+        ':phone' => $phone,
         ':id' => $id
     ]);
 }

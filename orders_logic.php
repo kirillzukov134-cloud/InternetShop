@@ -9,7 +9,20 @@ $product_id = $_POST['product_id'];
 $quantity   = $_POST['quantity'];
 
 
-$product = selectPrice($pdo, $product_id);
+$product = getProductById($pdo, $id);
+
+if(!$product){
+    $_SESSION['msg-error'] = 'Товар закончился или нет определенного количетсва';
+    redirect('orders.php');
+    exit;
+}
+
+if($product['remains'] < $quantity){
+    $_SESSION['msg-error'] = 'Товар закончился или нет определенного количетсва';
+    redirect('orders.php');
+    exit;
+}
+
 $price = $product['price'];
 $total = $price * $quantity;
 
@@ -17,5 +30,6 @@ $order_id = addOrder($pdo, $client_id);
 addOrderPosition($pdo, $order_id, $product_id, $quantity, $price);
 descreaseRemainder($pdo, $product_id, $quantity);
 updateSumm($pdo, $order_id, $total);
+
 
 redirect('ordersInfo.php');
