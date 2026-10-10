@@ -2,41 +2,54 @@
 session_start();
 require_once 'db.php';
 require 'function.php';
+$status = $_POST['status'];
+$name = $_POST['name'];
+$time = $_POST['time'];
 
-if ($_SESSION['user']['role'] === 'Admin') {
-    $sql = "SELECT Orders.id, 
-                    Orders.client_id, 
-                    Orders.created_at, 
-                    Orders.total_amount, 
-                    Orders.status, 
-                    Clients.name AS client_name, 
-                    Product.name AS product_name,
-                    Order_position.quanitity 
-            FROM Orders 
-            JOIN Clients ON Orders.client_id = Clients.id 
-            JOIN Order_position ON Order_position.order_id = Orders.id 
-            JOIN Product ON Product.id = Order_position.product_id;";
-    $statement = $pdo->query($sql);
-} else {
-    $sql = "SELECT Orders.id, 
-                    Orders.client_id, 
-                    Orders.created_at, 
-                    Orders.total_amount, 
-                    Orders.status, 
-                    Clients.name AS client_name, 
-                    Product.name AS product_name,
-                    Order_position.quanitity 
-            FROM Orders 
-            JOIN Clients ON Orders.client_id = Clients.id 
-            JOIN Order_position ON Order_position.order_id = Orders.id 
-            JOIN Product ON Product.id = Order_position.product_id
-            WHERE Orders.client_id = :client_id";
-    $statement = $pdo->prepare($sql);
-    $statement->execute([
-        ':client_id' => $_SESSION['user']['client_id']
-    ]);
+if(!empty($status)){
+    $orders = filterationStatusOrder($pdo, $status);
+}elseif(!empty($name)){
+    $orders = filterationClientName($pdo, $name);
+}elseif(!empty($time)){
+    $orders = filterationClientTime($pdo, $time);
+}else{
+    if ($_SESSION['user']['role'] === 'Admin') {
+        $sql = "SELECT Orders.id, 
+                        Orders.client_id, 
+                        Orders.created_at, 
+                        Orders.total_amount, 
+                        Orders.status, 
+                        Clients.name AS client_name, 
+                        Product.name AS product_name,
+                        Order_position.quanitity 
+                FROM Orders 
+                JOIN Clients ON Orders.client_id = Clients.id 
+                JOIN Order_position ON Order_position.order_id = Orders.id 
+                JOIN Product ON Product.id = Order_position.product_id;";
+        $statement = $pdo->query($sql);
+    } else {
+        $sql = "SELECT Orders.id, 
+                        Orders.client_id, 
+                        Orders.created_at, 
+                        Orders.total_amount, 
+                        Orders.status, 
+                        Clients.name AS client_name, 
+                        Product.name AS product_name,
+                        Order_position.quanitity 
+                FROM Orders 
+                JOIN Clients ON Orders.client_id = Clients.id 
+                JOIN Order_position ON Order_position.order_id = Orders.id 
+                JOIN Product ON Product.id = Order_position.product_id
+                WHERE Orders.client_id = :client_id";
+        $statement = $pdo->prepare($sql);
+        $statement->execute([
+            ':client_id' => $_SESSION['user']['client_id']
+        ]);
+    }
+    $orders = $statement->fetchAll(PDO::FETCH_ASSOC);
 }
-$orders = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+
 ?>
 
 <!DOCTYPE html>
@@ -50,7 +63,13 @@ $orders = $statement->fetchAll(PDO::FETCH_ASSOC);
     <?php include 'sidebar.php'; ?>
     <main class="content">
         <h1 class="name-chapter">Мои заказы</h1>
-    
+        <form method="POST">
+            <input type="text" name="status" class="input-search-category" value="<?php echo $status ?>" placeholder="Введите статус">
+            <input type="text" name="name" class="input-search-category" value="<?php echo $name ?>" placeholder="Введите имя">
+            <input type="text" name="time" class="input-search-category" value="<?php echo $time ?>" placeholder="Введите время">
+            <button class="btn-search" type="submit">Найти</button>
+            <a href="ordersInfo.php" class="btn-search">Сбросить</a>
+        </form>
         <!-- <div class="form-buttons">
             <a href="orders.php" class="btn-primary">Создать заказ</a>
         </div> -->

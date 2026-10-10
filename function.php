@@ -201,19 +201,81 @@ function filtrationCategory($pdo, $category_id) {
     return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function filterationProduct($pdo, $product_id){
+function filterationClientName($pdo, $name){
+    $sql = 'SELECT Orders.id, 
+                        Orders.client_id, 
+                        Orders.created_at, 
+                        Orders.total_amount, 
+                        Orders.status, 
+                        Clients.name AS client_name, 
+                        Product.name AS product_name,
+                        Order_position.quanitity
+                FROM Orders 
+                JOIN Clients ON Orders.client_id = Clients.id 
+                JOIN Order_position ON Order_position.order_id = Orders.id 
+                JOIN Product ON Product.id = Order_position.product_id
+                WHERE Clients.name = :name';
+    $statement = $pdo->prepare($sql);
+    $statement->execute([
+        ':name' => $name
+    ]);
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+function filterationClientTime($pdo, $time){
+    $sql = 'SELECT Orders.id, 
+                        Orders.client_id, 
+                        Orders.created_at, 
+                        Orders.total_amount, 
+                        Orders.status, 
+                        Clients.name AS client_name, 
+                        Product.name AS product_name,
+                        Order_position.quanitity
+                FROM Orders 
+                JOIN Clients ON Orders.client_id = Clients.id 
+                JOIN Order_position ON Order_position.order_id = Orders.id 
+                JOIN Product ON Product.id = Order_position.product_id
+                WHERE Orders.created_at = :time';
+    $statement = $pdo->prepare($sql);
+    $statement->execute([
+        ':time' => $time
+    ]);
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function filterationStatusOrder($pdo, $status){
+    $sql = 'SELECT Orders.id, 
+                    Orders.client_id, 
+                    Orders.created_at, 
+                    Orders.total_amount, 
+                    Orders.status, 
+                    Clients.name AS client_name, 
+                    Product.name AS product_name,
+                    Order_position.quanitity 
+            FROM Orders 
+            JOIN Clients ON Orders.client_id = Clients.id 
+            JOIN Order_position ON Order_position.order_id = Orders.id 
+            JOIN Product ON Product.id = Order_position.product_id
+            WHERE Orders.status = :status';
+    $statement = $pdo->prepare($sql);
+    $statement->execute([
+        ':status' => $status
+    ]);
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function higherRemainingStock($pdo, $product_id){
     if(empty($product_id)){
         selectAllProduct($pdo);
     }else{
-        $sql = 'SELECT 
-                    Product.id, 
-                    Product.name, 
-                    Product.price, 
-                    Product.remains,
-                    Product_category.category AS category_name
-                FROM Product
-                JOIN Product_category ON Product.category_id = Product_category.id
-                WHERE LOWER(Product.name) LIKE LOWER(:product_id)';
+        $sql = 'SELECT
+        Product.id,
+        Product.name,
+        Product.price,
+        Product.remains,
+        Product.category_id AS category_name
+    FROM Product
+    JOIN Product_category ON Product.category_id = Product_category.id
+    WHERE Product.remains > 0';
         $statement = $pdo->prepare($sql);
         $statement->execute([
             ':product_id' => '%' .  $product_id . '%'
@@ -251,10 +313,19 @@ function selectAllClient($pdo){
     return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
 function selectAllUsers($pdo){
-    $sql = "SELECT id, name, email, phone, role FROM Users";
+    $sql = "SELECT id, name FROM Users";
     $statement = $pdo->prepare($sql);
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function selectUserId($pdo, $id){
+    $sql = "SELECT id, name, email, phone FROM Users WHERE id = :id";
+    $statement = $pdo->prepare($sql);
+    $statement->execute([
+        ':id' => $id
+    ]);
+    return $statement->fetch(PDO::FETCH_ASSOC);
 }
 
 /*
@@ -318,6 +389,14 @@ function deleteProduct($pdo, $id){
 
 function deleteCategory($pdo, $id){
     $sql = "DELETE FROM Product_category WHERE id = :id";
+    $statement = $pdo->prepare($sql);
+    return $statement->execute([
+        ':id' => $id
+    ]);
+}
+
+function deleteClient($pdo, $id){
+    $sql = "DELETE FROM Clients WHERE id = :id";
     $statement = $pdo->prepare($sql);
     return $statement->execute([
         ':id' => $id

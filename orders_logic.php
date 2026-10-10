@@ -10,19 +10,6 @@ $quantity   = $_POST['quantity'];
 
 
 $product = getProductById($pdo, $id);
-
-if(!$product){
-    $_SESSION['msg-error'] = 'Товар закончился или нет определенного количетсва';
-    redirect('orders.php');
-    exit;
-}
-
-if($product['remains'] < $quantity){
-    $_SESSION['msg-error'] = 'Товар закончился или нет определенного количетсва';
-    redirect('orders.php');
-    exit;
-}
-
 $price = $product['price'];
 $total = $price * $quantity;
 

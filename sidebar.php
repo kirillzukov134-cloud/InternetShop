@@ -30,6 +30,7 @@ session_start();
                     <a class="btns" href="orders.php">Оформить заказ</a>
                     <!-- <a class="btns" href="orders.php">Добавить заказ</a> -->
                     <a class="btns" href="ordersInfo.php">Все заказы</a>
+                    <a class="btns" href="analitics.php">Аналитика</a>
                 <?php else: ?>
                     <!-- Для пользователя -->
                     <a class="btns" href="product.php">Товары</a>

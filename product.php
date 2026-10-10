@@ -8,7 +8,7 @@ $category_id = $_POST['category_id'];
 if (!empty($category_id)) {
     $productAll = filtrationCategory($pdo, $category_id);
 } elseif(!empty($product_id)){
-    $productAll = filterationProduct($pdo, $product_id);
+    $productAll = higherRemainingStock($pdo, $product_id);
 }else {
     $productAll = selectAllProduct($pdo);  
 }
