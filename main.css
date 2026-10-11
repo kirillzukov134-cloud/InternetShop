@@ -71,6 +71,27 @@ div.logo {
     padding: 0 16px;
 }
 
+div.captcha-cont {
+    display: grid;
+    grid-template-columns: repeat(2, 60px);
+    justify-content: center;
+    margin: 15px 0;
+}
+
+img.captcha {
+    width: 60px;
+    height: 60px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: grab;
+}
+
+
+a.logo-name{
+    text-decoration: none;
+    color: #f5f5f5;
+}
+
 div.logo h1 {
     color: #ffffff;
     font-family: serif;

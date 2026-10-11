@@ -9,6 +9,7 @@ $email = $_POST['email'];
 $password = $_POST['password'];
 $password_confirm = $_POST['password_confirm'];
 $role = 'User';
+$is_blocked = 0;
 
 // 1. Проверка на пустые поля
 if(empty($name) || empty($phone) || empty($email) || empty($password) || empty($password_confirm)) {
@@ -35,7 +36,7 @@ insertClients($pdo, $name, $email, $phone);
 $client_id = $pdo->lastInsertId();
 
 $passwordHash = password_hash($password, PASSWORD_DEFAULT);
-if (insertUsers($pdo, $name, $email, $phone, $passwordHash, $role, $client_id)) {
+if (insertUsers($pdo, $name, $email, $phone, $passwordHash, $role, $client_id, $is_blocked)) {
     $_SESSION['msg-success'] = 'Успешная регистрация';
     redirect('auth.php');
     exit;

@@ -1,5 +1,9 @@
 <?php
 session_start();
+$correct = [1,2,3,4];
+$shuffled = $correct;
+shuffle($shuffled);
+$_SESSION['current_order'] = $correct;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,6 +23,17 @@ session_start();
         <label> Пароль
             <input type="password" name="password" placeholder="Введите пароль">
         </label>
+        <div class="captcha-cont">
+            <?php foreach($shuffled as $value): ?>
+                <img class="captcha"
+                src="img/<?php echo $value ?>.png"
+                draggable="true"
+                id="captcha"
+                data-id="<?php echo $value ?>">
+            <?php endforeach; ?>
+        </div>
+
+        <input type="hidden" name="user_puzzle_order" id="user_puzzle_order">
         <button type="submit">
             Авторизоваться
         </button>
@@ -35,6 +50,7 @@ session_start();
             У вас нет акканута?<a href="register.php"> зарегистрируйтесь</a>
         </p>
     </form>
+    <script src="captcha.js"></script>
 </body>
 
 </html>

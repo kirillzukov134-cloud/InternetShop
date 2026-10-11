@@ -8,9 +8,9 @@ function redirect($path)
 }
 
 //Добавление пользователя (регистрация)
-function insertUsers($pdo, $name, $email, $phone, $password, $role = 'User', $client_id = null)
+function insertUsers($pdo, $name, $email, $phone, $password, $role = 'User', $client_id = null, $is_blocked = 0)
 {
-    $sql = "INSERT INTO Users (name, email, phone, password, role, client_id) VALUES (:name, :email, :phone, :password, :role, :client_id)";
+    $sql = "INSERT INTO Users (name, email, phone, password, role, client_id, is_blocked) VALUES (:name, :email, :phone, :password, :role, :client_id, :is_blocked)";
     $statement = $pdo->prepare($sql);
     return $statement->execute([
         ':name'      => $name,
@@ -18,7 +18,8 @@ function insertUsers($pdo, $name, $email, $phone, $password, $role = 'User', $cl
         ':phone'     => $phone,
         ':password'  => $password,
         ':role'      => $role,
-        ':client_id' => $client_id
+        ':client_id' => $client_id,
+        ':is_blocked' => $is_blocked
     ]);
 }
 
@@ -133,7 +134,7 @@ function CheckClientsReg($pdo, $email)
 
 function CheckClientAuth($pdo, $name, $password)
 {
-    $sql = "SELECT id, name, password, role, client_id FROM Users WHERE name = :name";
+    $sql = "SELECT id, name, password, role, client_id, is_blocked FROM Users WHERE name = :name";
     $statement = $pdo->prepare($sql);
     $statement->execute([
         ':name' => $name
@@ -313,7 +314,7 @@ function selectAllClient($pdo){
     return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
 function selectAllUsers($pdo){
-    $sql = "SELECT id, name FROM Users";
+    $sql = "SELECT id, name, is_blocked FROM Users";
     $statement = $pdo->prepare($sql);
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -375,6 +376,14 @@ function updateClients($pdo, $id, $name, $email, $phone){
         ':email' => $email,
         ':phone' => $phone,
         ':id' => $id
+    ]);
+}
+
+function blockedUser($pdo, $name){
+    $sql = 'UPDATE `Users` SET `is_blocked`= 1 WHERE name = :name';
+    $statement = $pdo->prepare($sql);
+    return $statement->execute([
+        ':name' => $name
     ]);
 }
 

@@ -22,7 +22,7 @@ $clients = selectAllClients($pdo);
                 echo '<p class="msg-error">' . $_SESSION['msg-error'] . '</p>';
             unset($_SESSION['msg-error']);
         ?>
-    <form class="form-filling" action="orders_logic.php" method="post">
+    <form class="form-filling" action="orders_logic.php" method="post" style="width: 80vh;">
         <?php if ($_SESSION['user']['role'] === 'Admin'): ?>
             <label class="form-name"> Клиент
                 <select name="client_id" class="option-category" required>

@@ -14,7 +14,7 @@ session_start();
 <body class="with-sidebar">
     <aside class="sidebar-menu">
         <div class="logo">
-            <h1>InternetShop</h1>
+            <h1 ><a href="sidebar.php" class="logo-name">InternetShop</a></h1>
         </div>
         <!-- Меню кнопок -->
         <div class="sidebar">
