@@ -369,7 +369,7 @@ function updateProduct($pdo, $id, $name, $price, $remains, $category_id){
 }
 
 function updateClients($pdo, $id, $name, $email, $phone){
-    $sql = "UPDATE Clients SET name = :name, email = :email, phone = :phone WHERE id = :id";
+    $sql = "UPDATE Clients SET  name = :name, email = :email, phone = :phone WHERE id = L";
     $statement = $pdo->prepare($sql);
     return $statement->execute([
         ':name' => $name,
@@ -384,6 +384,14 @@ function blockedUser($pdo, $name){
     $statement = $pdo->prepare($sql);
     return $statement->execute([
         ':name' => $name
+    ]);
+}
+
+function unblockUser($pdo, $id){
+    $sql = 'UPDATE `Users` SET `is_blocked` = 0 WHERE id = :id';
+    $statement = $pdo->prepare($sql);
+    return $statement->execute([
+        ':id' => $id
     ]);
 }
 

@@ -35,7 +35,7 @@ $userID = selectUserId($pdo, $id);
                     <td><?php echo $userID['email']?></td>
                     <td><?php echo $userID['phone']?></td>
                     <td>
-                        <a href="#" class="btn-switching">Изменить свои данные</a>
+                        <a href="update_user_profile.php?id=<?php echo $userID['id']; ?>" class="btn-switching">Изменить свои данные</a>
                     </td>
                 </tr>
             </tbody>
