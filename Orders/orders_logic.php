@@ -9,7 +9,7 @@ $product_id = $_POST['product_id'];
 $quantity   = $_POST['quantity'];
 
 
-$product = getProductById($pdo, $id);
+$product = getProductById($pdo, $product_id);
 $price = $product['price'];
 $total = $price * $quantity;
 

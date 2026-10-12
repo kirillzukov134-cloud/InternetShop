@@ -368,15 +368,31 @@ function updateProduct($pdo, $id, $name, $price, $remains, $category_id){
     ]);
 }
 
-function updateClients($pdo, $id, $name, $email, $phone){
-    $sql = "UPDATE Clients SET  name = :name, email = :email, phone = :phone WHERE id = L";
+function updateClients($pdo, $client_id, $name, $email, $phone){
+    $sql = "UPDATE Clients SET  name = :name, email = :email, phone = :phone WHERE id = :id";
     $statement = $pdo->prepare($sql);
     return $statement->execute([
         ':name' => $name,
         ':email' => $email,
         ':phone' => $phone,
-        ':id' => $id
+        ':id' => $client_id
     ]);
+}
+function updateUsers($pdo, $user_id, $name, $email, $phone){
+    $sql = "UPDATE Users SET  name = :name, email = :email, phone = :phone WHERE id = :id";
+    $statement = $pdo->prepare($sql);
+    return $statement->execute([
+        ':name' => $name,
+        ':email' => $email,
+        ':phone' => $phone,
+        ':id' => $user_id
+    ]);
+}
+
+function updateUserAndClient($pdo, $user_id, $client_id, $name, $email, $phone){
+    updateUsers($pdo, $user_id, $name, $email, $phone);
+    updateClients($pdo, $client_id, $name, $email, $phone);
+    return true;
 }
 
 function blockedUser($pdo, $name){
@@ -418,4 +434,29 @@ function deleteClient($pdo, $id){
     return $statement->execute([
         ':id' => $id
     ]);
+}
+
+function totalRevenueSumm($pdo){
+    $sql = "SELECT
+	COALESCE(SUM(Orders.total_amount), 0) AS Сумма
+FROM Orders
+WHERE Orders.status = 'Завершён'";
+    $statement = $pdo->prepare($sql);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function revenueByCategory($pdo){
+    $sql = "SELECT
+    Product_category.category AS Категория,
+    SUM(Order_position.quanitity * Order_position.purchase_at_price) AS Сумма
+FROM Order_position
+JOIN Product ON Order_position.product_id = Product.id 
+JOIN Product_category ON Product.category_id = Product_category.id
+JOIN Orders ON Order_position.order_id = Orders.id
+WHERE Orders.status = 'Завершён'
+GROUP BY Product_category.category";
+    $statement = $pdo->prepare($sql);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
 }

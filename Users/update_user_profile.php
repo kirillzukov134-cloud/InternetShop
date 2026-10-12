@@ -28,7 +28,7 @@ $user = selectUserId($pdo, $id);
             <input type="email" name="email" value="<?php echo $user['email'] ?>" placeholder="Введите почту">
         </label>
         <label>Телефон
-            <input type="number" name="phone" value="<?php echo $user['phone'] ?>" placeholder="Введите телефон">
+            <input type="text" name="phone" value="<?php echo $user['phone'] ?>" placeholder="Введите телефон">
         </label>
             <button type="submit" class="btn-add">Редактировать</button>
             <p>Передумали? <a href="users.php">Назад</a></p>

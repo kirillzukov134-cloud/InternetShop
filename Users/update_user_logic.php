@@ -3,15 +3,13 @@ session_start();
 require_once __DIR__ . '/../db.php';
 require_once __DIR__ . '/../function.php';
 
-$id = $_POST['id'];
 $name = $_POST['name'];
 $email = $_POST['email'];
 $phone = $_POST['phone'];
+$user_id   = $_POST['id'];
+$client_id = $_SESSION['user']['client_id'];
 
-
-$update = updateClients($pdo, $id, $name, $email, $phone);
-if($update){
-
+if(updateUserAndClient($pdo, $user_id, $client_id, $name, $email, $phone)){
     redirect('profile.php');
     exit;
 }else{

@@ -37,17 +37,16 @@ $clients = selectAllClients($pdo);
             </label>
         <?php else: ?>
             <input type="hidden" name="client_id" value="<?php echo $_SESSION['user']['client_id'] ?>">
-            <p>Клиент: <b><?php echo $_SESSION['user']['name'] ?></b></p>
         <?php endif; ?>
                 <label>Товар:
                     <select name="product_id" class="option-category" required>
                         <option value="">Выберите товар</option>
                         <?php foreach ($products as $product): ?>
-                            <option value="<?php $product['id'] ?>" 
-                                    data-price="<?php $product['price'] ?>"
-                                    data-stock="<?php $product['remains'] ?>">
+                            <option value="<?php echo $product['id'] ?>" 
+                                    data-price="<?php echo $product['price'] ?>"
+                                    data-stock="<?php echo $product['remains'] ?>">
                                 <?php echo $product['name'] ?> 
-                                <?php echo $product['price'] ?>рублей, остаток: 
+                                <?php echo $product['price'] ?> остаток: 
                                 <?php echo $product['remains'] ?>
                             </option>
                         <?php endforeach; ?>

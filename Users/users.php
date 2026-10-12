@@ -29,10 +29,8 @@ $userAll = selectAllUsers($pdo);
                     <tr>
                         <th><?php echo $user['name'] ?></th>
                         <th>
-                            <a class="btn-switching" href="#">Удалить |</a>
-                            <a class="btn-switching" href="#">Редактировать</a>
                             <?php if($user['is_blocked'] == 1): ?>
-                            <a class="btn-switching" href="unblock_user.php?id=<?php echo $user['id'] ?>">| Разблокировать</a>
+                            <a class="btn-switching" href="unblock_user.php?id=<?php echo $user['id'] ?>">Разблокировать</a>
                             <?php endif; ?>
                         </th>
                     </tr>

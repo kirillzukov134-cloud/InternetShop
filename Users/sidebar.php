@@ -42,7 +42,7 @@ session_start();
         <?php if($_SESSION['user']['role'] === 'Admin'): ?>
             <a href="/Users/users.php">Пользователи</a>
         <?php endif; ?>
-            <a href="profile.php">Мой профиль</a>
+            <a href="/Users/profile.php">Мой профиль</a>
             <a href="/../auth/logout.php">Выход</a>
         </div>
     </aside>
