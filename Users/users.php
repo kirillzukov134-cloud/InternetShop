@@ -1,0 +1,44 @@
+<?php
+require_once __DIR__ . '/../db.php';
+require __DIR__ . '/../function.php';
+$userAll = selectAllUsers($pdo);
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/../assets/css/main.css">
+</head>
+<body class="with-product">
+    <?php include '../Users/sidebar.php'; ?>
+    <main class="content">
+        <h1 class="name-chapter">Пользователи</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Имя пользователя</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($userAll as $user): ?>
+                    <tr>
+                        <th><?php echo $user['name'] ?></th>
+                        <th>
+                            <a class="btn-switching" href="#">Удалить |</a>
+                            <a class="btn-switching" href="#">Редактировать</a>
+                            <?php if($user['is_blocked'] == 1): ?>
+                            <a class="btn-switching" href="unblock_user.php?id=<?php echo $user['id'] ?>">| Разблокировать</a>
+                            <?php endif; ?>
+                        </th>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </main>
+</body>
+
+</html>
