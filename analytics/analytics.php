@@ -4,6 +4,9 @@ require __DIR__ . '/../function.php';
 
 $totals = totalRevenueSumm($pdo);
 $totalsCategories = revenueByCategory($pdo);
+$topProducts =  byNumberOfUnitsSold($pdo);
+$topClients = byNumberOfClients($pdo);
+$staticStatusProducts = staticStatusProducts($pdo);
 ?>
 
 <!DOCTYPE html>
@@ -48,64 +51,49 @@ $totalsCategories = revenueByCategory($pdo);
                 <?php endforeach; ?>
             </tbody>
         </table>
-        <h1 class="name-chapter" style="margin-top: 15px;">Топ-5 товаров </h1>
+        <h1 class="name-chapter" style="margin-top: 15px;">Топ-5 товаров</h1>
         <table>
             <thead>
                 <tr>
-                    <th></th>
-                    <th></th>
+                    <th>Самые продаваемые товары по количеству проданных единиц</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- <?php foreach ($userAll as $user): ?>
+                <?php foreach ($topProducts as $topProduct): ?>
                     <tr>
-                        <th><?php echo $user['name'] ?></th>
-                        <th>
-                            <a class="btn-switching" href="#">Удалить |</a>
-                            <a class="btn-switching" href="#">Редактировать</a>
-                        </th>
+                        <th><?php echo $topProduct['name'] ?></th>
                     </tr>
-                <?php endforeach; ?> -->
+                <?php endforeach; ?>
             </tbody>
         </table>
-        <h1 class="name-chapter" style="margin-top: 15px;">Топ-5 клиентов </h1>
+        <h1 class="name-chapter" style="margin-top: 15px;">Топ-5 клиентов</h1>
         <table>
             <thead>
                 <tr>
-                    <th></th>
-                    <th></th>
+                    <th>клиенты, потратившие больше всего денег</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- <?php foreach ($userAll as $user): ?>
+                <?php foreach ($topClients as $topClient): ?>
                     <tr>
-                        <th><?php echo $user['name'] ?></th>
-                        <th>
-                            <a class="btn-switching" href="#">Удалить |</a>
-                            <a class="btn-switching" href="#">Редактировать</a>
-                        </th>
+                        <th><?php echo "Клиент: " .  $topClient['Клиент'] . " - " . $topClient['Общая_сумма'] . " руб."?></th>
                     </tr>
-                <?php endforeach; ?> -->
+                <?php endforeach; ?>
             </tbody>
         </table>
-        <h1 class="name-chapter" style="margin-top: 15px;">Статистика по статусам заказов </h1>
+        <h1 class="name-chapter" style="margin-top: 15px;">Статистика по статусам заказов</h1>
         <table>
             <thead>
                 <tr>
-                    <th></th>
-                    <th></th>
+                    <th>сколько заказов в каждом статусе</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- <?php foreach ($userAll as $user): ?>
+                <?php foreach ($staticStatusProducts as $staticStatusProduct): ?>
                     <tr>
-                        <th><?php echo $user['name'] ?></th>
-                        <th>
-                            <a class="btn-switching" href="#">Удалить |</a>
-                            <a class="btn-switching" href="#">Редактировать</a>
-                        </th>
+                        <th><?php echo $staticStatusProduct['Статус'] . " - " . $staticStatusProducts['Всего_заказов'] ?></th>
                     </tr>
-                <?php endforeach; ?> -->
+                <?php endforeach; ?>
             </tbody>
         </table>
         <h1 class="name-chapter" style="margin-top: 15px;">Средний чек </h1>

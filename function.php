@@ -460,3 +460,42 @@ GROUP BY Product_category.category";
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
+
+function byNumberOfUnitsSold($pdo){
+    $sql = "SELECT
+	Product.name
+FROM Order_position
+JOIN Product ON Order_position.product_id = Product.id 
+JOIN Product_category ON Product.category_id = Product_category.id
+JOIN Orders ON Order_position.order_id = Orders.id
+WHERE Orders.status = 'Завершён'
+GROUP BY Product.name";
+    $statement = $pdo->prepare($sql);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+function byNumberOfClients($pdo){
+    $sql = "SELECT 
+	Clients.name AS Клиент,
+    SUM(Orders.total_amount) AS Общая_сумма
+FROM Orders
+JOIN Clients ON Orders.client_id = Clients.id
+WHERE Orders.total_amount > 0
+GROUP BY Clients.name
+LIMIT 5;";
+    $statement = $pdo->prepare($sql);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function staticStatusProducts($pdo){
+    $sql = 'SELECT 
+    Orders.status AS Статус,
+    COUNT(Orders.id) AS Всего_заказов
+FROM Orders
+JOIN Order_position ON Order_position.order_id = Orders.id
+GROUP BY Order_position.quanitity, Orders.status';
+    $statement = $pdo->prepare($sql);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
