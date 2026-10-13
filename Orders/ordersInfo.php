@@ -2,6 +2,7 @@
 session_start();
 require_once __DIR__ . '/../db.php';
 require __DIR__ . '/../function.php';
+
 $status = $_POST['status'];
 $name = $_POST['name'];
 $time = $_POST['time'];

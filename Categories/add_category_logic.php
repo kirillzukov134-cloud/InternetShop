@@ -9,9 +9,11 @@ $category = $_POST['category'];
 // exit;
 
 if(insertCategory($pdo, $category)){
+    $_SESSION['msg-success'] = 'Успешное добавление';
     redirect('categories.php');
     exit;
 }else{
+    $_SESSION['msg-error'] = 'Ошибка при добавлении';
     redirect('add_category.php');
     exit;
 }

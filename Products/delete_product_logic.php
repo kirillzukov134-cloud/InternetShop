@@ -6,10 +6,11 @@ require __DIR__ . '/../function.php';
 $deleteProduct = deleteProduct($pdo, $_GET['id']);
 
 if ($deleteProduct) {
+    $_SESSION['msg-success'] = 'Успешное удаление';
     redirect('product.php');
     exit;
 } else {
-    // $_SESSION['msg-error'] = 'Не удалось удалить товар';
+    $_SESSION['msg-error'] = 'Не удалось удалить товар';
     redirect('product.php');
     exit;
 }

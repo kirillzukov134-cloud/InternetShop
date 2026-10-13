@@ -10,11 +10,11 @@ $category_id = $_POST['category_id'];
 
 
 if(insertProduct($pdo, $name, $price, $remains, $category_id)){
-    // $_SESSION['msg-success'] = 'Успешное добавление';
+    $_SESSION['msg-success'] = 'Успешное добавление';
     redirect('product.php');
     exit;
 }else{
-    // $_SESSION['msg-error'] = 'Ошибка при добавлении';
+    $_SESSION['msg-error'] = 'Ошибка при добавлении';
     redirect('add_product.php');
     exit;
 }

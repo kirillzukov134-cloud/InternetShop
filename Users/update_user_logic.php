@@ -10,9 +10,11 @@ $user_id   = $_POST['id'];
 $client_id = $_SESSION['user']['client_id'];
 
 if(updateUserAndClient($pdo, $user_id, $client_id, $name, $email, $phone)){
+    $_SESSION['msg-success'] = 'Успешное редактирование';
     redirect('profile.php');
     exit;
 }else{
+    $_SESSION['msg-error'] = 'Ошибка редактирования';
     redirect('update_user_profile.php');
     exit;
 }

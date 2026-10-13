@@ -21,7 +21,7 @@ $userAll = selectAllUsers($pdo);
             <thead>
                 <tr>
                     <th>Имя пользователя</th>
-                    <th>Действия</th>
+                    <th>Действия (если пользователь заблокирован)</th>
                 </tr>
             </thead>
             <tbody>

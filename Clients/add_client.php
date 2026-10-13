@@ -21,6 +21,11 @@
         <p>
             Передумали? <a href="clients.php">Назад</a>    
         </p>
+        <?php
+        if (!empty($_SESSION['msg-error']))
+            echo '<p class="msg-error">' . $_SESSION['msg-error'] . '</p>';
+        unset($_SESSION['msg-error']);
+        ?>
     </form>
 </body>
 </html>

@@ -9,7 +9,9 @@ $remains = $_POST['remains'];
 $category_id = $_POST['category_id'];
 
 if (updateProduct($pdo, $id, $name, $price, $remains, $category_id)) {
+    $_SESSION['msg-success'] = 'Успешное редактирование';
     redirect('product.php');
 } else {
+    $_SESSION['msg-error'] = 'Ошибка редактирования';
     redirect('update_product.php?id=' . $id);
 }

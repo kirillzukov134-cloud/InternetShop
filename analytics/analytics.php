@@ -7,6 +7,7 @@ $totalsCategories = revenueByCategory($pdo);
 $topProducts =  byNumberOfUnitsSold($pdo);
 $topClients = byNumberOfClients($pdo);
 $staticStatusProducts = staticStatusProducts($pdo);
+$avgStatusCompleteds = AvgStatusCompleted($pdo);
 ?>
 
 <!DOCTYPE html>
@@ -91,29 +92,24 @@ $staticStatusProducts = staticStatusProducts($pdo);
             <tbody>
                 <?php foreach ($staticStatusProducts as $staticStatusProduct): ?>
                     <tr>
-                        <th><?php echo $staticStatusProduct['Статус'] . " - " . $staticStatusProducts['Всего_заказов'] ?></th>
+                        <th><?php echo $staticStatusProduct['Статус'] . " - " . $staticStatusProduct['Всего_заказов']; ?></th>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
-        <h1 class="name-chapter" style="margin-top: 15px;">Средний чек </h1>
+        <h1 class="name-chapter" style="margin-top: 15px;">Средний чек</h1>
         <table>
             <thead>
                 <tr>
-                    <th></th>
-                    <th></th>
+                    <th>Средняя сумма заказа со статусом "доставлен"</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- <?php foreach ($userAll as $user): ?>
+                <?php foreach ($avgStatusCompleteds as $avgStatusCompleted): ?>
                     <tr>
-                        <th><?php echo $user['name'] ?></th>
-                        <th>
-                            <a class="btn-switching" href="#">Удалить |</a>
-                            <a class="btn-switching" href="#">Редактировать</a>
-                        </th>
+                        <th><?php echo  "Средний чек - " . $avgStatusCompleted['Средний_чек'] . 'руб. '; ?></th>
                     </tr>
-                <?php endforeach; ?> -->
+                <?php endforeach; ?>
             </tbody>
         </table>
     </main>

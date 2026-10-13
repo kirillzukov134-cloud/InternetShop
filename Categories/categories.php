@@ -44,6 +44,15 @@ $categoriesAll = selectAllCategory($pdo);
                 <?php endforeach; ?>
             </tbody>
         </table>
+        <?php
+            if (!empty($_SESSION['msg-success']))
+                echo '<p class="msg-success">' . $_SESSION['msg-success'] . '</p>';
+            unset($_SESSION['msg-success']);
+
+            if (!empty($_SESSION['msg-error']))
+                echo '<p class="msg-error">' . $_SESSION['msg-error'] . '</p>';
+            unset($_SESSION['msg-error']);
+        ?>
     </main>
 </body>
 

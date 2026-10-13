@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,6 +18,11 @@
         <p>
             Передумали? <a href="categories.php">Назад</a>    
         </p>
+        <?php
+            if (!empty($_SESSION['msg-error']))
+                echo '<p class="msg-error">' . $_SESSION['msg-error'] . '</p>';
+            unset($_SESSION['msg-error']);
+        ?>
     </form>
 </body>
 </html>

@@ -6,10 +6,11 @@ require __DIR__ . '/../function.php';
 $deleteCategory = deleteCategory($pdo, $_GET['id']);
 
 if($deleteCategory){
+    $_SESSION['msg-success'] = 'Успешное удаление';
     redirect('categories.php');
     exit;
 }else{
-    // $_SESSION['msg-error'] = 'Ошибка при удалении';
+    $_SESSION['msg-error'] = 'Ошибка при удалении';
     redirect('categories.php');
     exit;
 }

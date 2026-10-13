@@ -436,6 +436,10 @@ function deleteClient($pdo, $id){
     ]);
 }
 
+/*
+Аналитика
+*/
+
 function totalRevenueSumm($pdo){
     $sql = "SELECT
 	COALESCE(SUM(Orders.total_amount), 0) AS Сумма
@@ -482,7 +486,7 @@ FROM Orders
 JOIN Clients ON Orders.client_id = Clients.id
 WHERE Orders.total_amount > 0
 GROUP BY Clients.name
-LIMIT 5;";
+LIMIT 5";
     $statement = $pdo->prepare($sql);
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -495,6 +499,16 @@ function staticStatusProducts($pdo){
 FROM Orders
 JOIN Order_position ON Order_position.order_id = Orders.id
 GROUP BY Order_position.quanitity, Orders.status';
+    $statement = $pdo->prepare($sql);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function AvgStatusCompleted($pdo){
+    $sql = "SELECT 
+    AVG(Orders.total_amount) AS Средний_чек
+FROM Orders
+WHERE Orders.status = 'Завершён'";
     $statement = $pdo->prepare($sql);
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);

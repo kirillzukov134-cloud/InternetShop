@@ -31,7 +31,18 @@ $user = selectUserId($pdo, $id);
             <input type="text" name="phone" value="<?php echo $user['phone'] ?>" placeholder="Введите телефон">
         </label>
             <button type="submit" class="btn-add">Редактировать</button>
-            <p>Передумали? <a href="users.php">Назад</a></p>
+            <p>
+                Передумали? <a href="users.php">Назад</a>
+            </p>
+            <?php
+                if (!empty($_SESSION['msg-success']))
+                    echo '<p class="msg-success">' . $_SESSION['msg-success'] . '</p>';
+                unset($_SESSION['msg-success']);
+
+                if (!empty($_SESSION['msg-error']))
+                    echo '<p class="msg-error">' . $_SESSION['msg-error'] . '</p>';
+                unset($_SESSION['msg-error']);
+            ?>
         </form>
     </main>
 </body>

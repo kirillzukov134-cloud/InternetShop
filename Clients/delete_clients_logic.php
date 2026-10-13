@@ -7,6 +7,7 @@ $id = $_GET['id'];
 $deleteClient = deleteClient($pdo, $id);
 
 if($deleteClient){
+    $_SESSION['msg-success'] = 'Успешное удаление';
     redirect('clients.php');
     exit;
 }else{

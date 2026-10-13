@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once __DIR__ . '/../db.php';
 require __DIR__ . '/../function.php';
 $addCategory = selectAllCategory($pdo);
@@ -32,6 +33,15 @@ $addCategory = selectAllCategory($pdo);
             </select>
         </lable>
         <button class="btn-add" type="submit">Добавить продукт</button>
+        <?php
+        if (!empty($_SESSION['msg-success']))
+            echo '<p class="msg-success">' . $_SESSION['msg-success'] . '</p>';
+        unset($_SESSION['msg-success']);
+
+        if (!empty($_SESSION['msg-error']))
+            echo '<p class="msg-error">' . $_SESSION['msg-error'] . '</p>';
+        unset($_SESSION['msg-error']);
+        ?>
         <p>
             Передумали? <a href="product.php">Назад</a>    
         </p>

@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once __DIR__ . '/../db.php';
 require __DIR__ . '/../function.php';
 $clientsAll = selectAllClients($pdo);
@@ -44,6 +45,12 @@ $clientsAll = selectAllClients($pdo);
                 <?php endforeach; ?>
             </tbody>
         </table>
+        <?php
+        if (!empty($_SESSION['msg-success'])) {
+                echo '<p class="msg-success">' . $_SESSION['msg-success'] . '</p>';
+            unset($_SESSION['msg-success']);
+        }
+        ?>
     </main>
 </body>
 
