@@ -6,7 +6,7 @@ $totals = totalRevenueSumm($pdo);
 $totalsCategories = revenueByCategory($pdo);
 $topProducts =  byNumberOfUnitsSold($pdo);
 $topClients = byNumberOfClients($pdo);
-$staticStatusProducts = staticStatusProducts($pdo);
+$staticStatusProducts = staticStatusOrders($pdo);
 $avgStatusCompleteds = AvgStatusCompleted($pdo);
 ?>
 

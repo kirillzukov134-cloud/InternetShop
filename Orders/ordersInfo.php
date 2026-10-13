@@ -7,50 +7,15 @@ $status = $_POST['status'];
 $name = $_POST['name'];
 $time = $_POST['time'];
 
-if(!empty($status)){
+if($status){
     $orders = filterationStatusOrder($pdo, $status);
-}elseif(!empty($name)){
+}elseif($name){
     $orders = filterationClientName($pdo, $name);
-}elseif(!empty($time)){
+}elseif($time){
     $orders = filterationClientTime($pdo, $time);
 }else{
-    if ($_SESSION['user']['role'] === 'Admin') {
-        $sql = "SELECT Orders.id, 
-                        Orders.client_id, 
-                        Orders.created_at, 
-                        Orders.total_amount, 
-                        Orders.status, 
-                        Clients.name AS client_name, 
-                        Product.name AS product_name,
-                        Order_position.quanitity 
-                FROM Orders 
-                JOIN Clients ON Orders.client_id = Clients.id 
-                JOIN Order_position ON Order_position.order_id = Orders.id 
-                JOIN Product ON Product.id = Order_position.product_id;";
-        $statement = $pdo->query($sql);
-    } else {
-        $sql = "SELECT Orders.id, 
-                        Orders.client_id, 
-                        Orders.created_at, 
-                        Orders.total_amount, 
-                        Orders.status, 
-                        Clients.name AS client_name, 
-                        Product.name AS product_name,
-                        Order_position.quanitity 
-                FROM Orders 
-                JOIN Clients ON Orders.client_id = Clients.id 
-                JOIN Order_position ON Order_position.order_id = Orders.id 
-                JOIN Product ON Product.id = Order_position.product_id
-                WHERE Orders.client_id = :client_id";
-        $statement = $pdo->prepare($sql);
-        $statement->execute([
-            ':client_id' => $_SESSION['user']['client_id']
-        ]);
-    }
-    $orders = $statement->fetchAll(PDO::FETCH_ASSOC);
+    $orders = getOrdersAndClients($pdo);
 }
-
-
 ?>
 
 <!DOCTYPE html>
