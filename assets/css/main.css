@@ -17,6 +17,16 @@ body.form {
     align-items: center;
 }
 
+form.form-filling{
+    border: 1px solid #b8b8b8;
+    border-radius: 15px;
+}
+
+label.field-names{
+    padding: 2px;
+    margin: 6px;
+    font-weight: bold;
+}
 
 label {
     display: block;
@@ -50,6 +60,13 @@ p.msg-success {
     margin: 3px;
     text-align: center;
     font-weight: bold;
+}
+
+p.msg-question{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    gap: 6px;
 }
 
 /*
@@ -115,6 +132,7 @@ form.form-filling{
     flex-direction: column;
     margin: 40px auto 0 auto;
     border: 2px solid #dfd9d9;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     height: max-content;
     border-radius: 10px;
     padding: 10px;
@@ -144,8 +162,31 @@ a.btn-add{
     transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
-button.btn-search    {
+button.btn-transition{
+    background-color: #b7acac;
+    color: #ede4e4;
+    border: 2px solid #665e5e;
+    border-radius: 10px;
+    padding: 5px 0;
+    cursor: pointer;
+    transition: background 0.3 ease, color 0.3 ease, border-color 0.3s ease;;
+}
+
+
+button.btn-transition:hover{
+    background-color: #847c7c;
+    color: #d1c8c8;
+    border: 2px solid #aca3a3;
+}
+
+button.btn-search{
     color: #2a2a2a;
+}
+
+a.link-pagination{
+    text-decoration: none;
+    color: #857d7d;
+    font-weight: bold;
 }
 
 a.btn-add:hover{

@@ -16,11 +16,11 @@ $_SESSION['current_order'] = $correct;
 </head>
 
 <body class="form">
-    <form action="signin.php" method="post">
-        <label> Имя
+    <form class="form-filling" action="signin.php" method="post">
+        <label class="field-names"> Имя
             <input type="text" name="name" placeholder="Введите Имя">
         </label>
-        <label> Пароль
+        <label class="field-names"> Пароль
             <input type="password" name="password" placeholder="Введите пароль">
         </label>
         <div class="captcha-cont">
@@ -34,20 +34,20 @@ $_SESSION['current_order'] = $correct;
         </div>
 
         <input type="hidden" name="user_puzzle_order" id="user_puzzle_order">
-        <button type="submit">
+        <button type="submit" class="btn-transition">
             Авторизоваться
         </button>
         <?php
-        if (!empty($_SESSION['msg-success']))
-            echo '<p class="msg-success">' . $_SESSION['msg-success'] . '</p>';
-        unset($_SESSION['msg-success']);
+            if (!empty($_SESSION['msg-success']))
+                echo '<p class="msg-success">' . $_SESSION['msg-success'] . '</p>';
+            unset($_SESSION['msg-success']);
 
-        if (!empty($_SESSION['msg-error']))
-            echo '<p class="msg-error">' . $_SESSION['msg-error'] . '</p>';
-        unset($_SESSION['msg-error']);
+            if (!empty($_SESSION['msg-error']))
+                echo '<p class="msg-error">' . $_SESSION['msg-error'] . '</p>';
+            unset($_SESSION['msg-error']);
         ?>
         <p>
-            У вас нет акканута?<a href="../auth/register.php"> зарегистрируйтесь</a>
+            У вас нет акканута?<a href="../auth/register.php" class="link-pagination"> зарегистрируйтесь</a>
         </p>
     </form>
     <script src="../assets/js/captcha.js"></script>
