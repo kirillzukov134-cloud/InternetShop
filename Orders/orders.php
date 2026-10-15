@@ -39,7 +39,7 @@ $clients = selectAllClients($pdo);
             <input type="hidden" name="client_id" value="<?php echo $_SESSION['user']['client_id'] ?>">
         <?php endif; ?>
                 <label>Товар:
-                    <select name="product_id" class="option-category" required>
+                    <select name="product_id" class="option-category" required style="width: 54vh;">
                         <option value="">Выберите товар</option>
                         <?php foreach ($products as $product): ?>
                             <option value="<?php echo $product['id'] ?>" 
