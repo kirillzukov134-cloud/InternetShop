@@ -300,6 +300,25 @@ function getProductById($pdo, $id){
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
+function filterByPrice($pdo, $minimum, $maximum){
+    $sql = "SELECT 
+                Product.id,
+                Product.name,
+                Product.price,
+                Product.remains,
+                Product_category.category AS category_name
+            FROM Product
+            JOIN Product_category ON Product.category_id = Product_category.id
+            WHERE Product.price >= :minimum 
+                AND Product.price <= :maximum";
+    $statement = $pdo->prepare($sql);
+    $statement->execute([
+        ':minimum' => $minimum,
+        ':maximum' => $maximum
+    ]);
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+
 //Вывод всех продуктов
 function selectAllProduct($pdo)
 {
@@ -318,23 +337,24 @@ function selectAllProduct($pdo)
 
 //Товары с остатком > 0
 function higherRemainingStock($pdo, $product_id){
-    if(empty($product_id)){
-        selectAllProduct($pdo);
-    }else{
-        $sql = 'SELECT
+    if (empty($product_id)) {
+        return selectAllProduct($pdo);
+    }
+    $sql = 'SELECT
         Product.id,
         Product.name,
         Product.price,
         Product.remains,
-        Product.category_id AS category_name
+        Product_category.category AS category_name
     FROM Product
     JOIN Product_category ON Product.category_id = Product_category.id
-    WHERE Product.remains > 0';
-        $statement = $pdo->prepare($sql);
-        $statement->execute([
-            ':product_id' => '%' .  $product_id . '%'
-        ]);
-    }
+    WHERE Product.name LIKE :product_id
+    AND Product.remains > 0';
+
+    $statement = $pdo->prepare($sql);
+    $statement->execute([
+        ':product_id' => '%' . $product_id . '%'
+    ]);
     return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
 

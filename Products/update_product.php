@@ -36,7 +36,7 @@ $categories = selectAllCategory($pdo);
             <select name="category_id">
                 <?php foreach ($categories as $category): ?>
                     <option value="<?php echo $category['id'] ?>"
-                        <?php echo $category['id'] == $product['category_id']?>>
+                        <?php echo $category['id']?>>
                         <?php echo $category['category'] ?>
                     </option>
                 <?php endforeach; ?>

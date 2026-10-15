@@ -13,7 +13,7 @@ if(updateClients($pdo, $id, $name, $email, $phone)){
     redirect('clients.php');
     exit;
 }else{
-    $_SESSION['msg-error'] = 'Успешное редактирование';
+    $_SESSION['msg-error'] = 'Ошибка при редактировании';
     redirect('update_client.php');
     exit;
 }

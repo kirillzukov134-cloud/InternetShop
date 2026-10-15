@@ -4,13 +4,17 @@ require_once __DIR__ . '/../db.php';
 require __DIR__ . '/../function.php';
 $product_id = $_POST['product_id'];
 $category_id = $_POST['category_id'];
+$minimum_price  = $_POST['minimum_price'];
+$maximum_price   = $_POST['maximum_price'];
 
-if (!empty($category_id)) {
+if (!empty($minimum_price) && !empty($maximum_price )) {
+    $productAll = filterByPrice($pdo, $minimum_price ,$maximum_price );
+} elseif (!empty($category_id)) {
     $productAll = filtrationCategory($pdo, $category_id);
-} elseif(!empty($product_id)){
+} elseif (!empty($product_id)) {
     $productAll = higherRemainingStock($pdo, $product_id);
-}else {
-    $productAll = selectAllProduct($pdo);  
+} else {
+    $productAll = selectAllProduct($pdo);
 }
 
 ?>
@@ -34,6 +38,8 @@ if (!empty($category_id)) {
                 <form method="POST">
                     <input type="text" name="category_id" class="input-search-category" value="<?php echo $category_id?>" placeholder="Введите категорию">
                     <input type="text" name="product_id" class="input-search-product" value="<?php echo $product_id?>" placeholder="Введите товар">
+                    <input type="number" name="minimum_price" class="input-search-price" value="<?php echo $minimum_price?>" placeholder="Цена от">
+                    <input type="number" name="maximum_price" class="input-search-price" value="<?php echo $maximum_price  ?>" placeholder="Цена до">
                     <button class="btn-search" type="submit">Найти</button>
                     <a href="product.php" class="btn-search">Сбросить</a>
                 </form>
