@@ -29,8 +29,14 @@ $userAll = selectAllUsers($pdo);
                     <tr>
                         <th><?php echo $user['name'] ?></th>
                         <th>
+                            <!-- Если есть блокировка -->
                             <?php if($user['is_blocked'] == 1): ?>
-                            <a class="btn-switching" href="unblock_user.php?id=<?php echo $user['id'] ?>">Разблокировать</a>
+                            <a class="btn-switching" href="unblock_user.php?id=<?php echo $user['id'] ?>">Разблокировать |</a>
+                            <?php endif;?>
+
+                            <!-- Для админа -->
+                            <?php if($_SESSION['user']['role'] === 'Admin'): ?>
+                            <a class="btn-switching" href="delete_user.php?id=<?php echo $user['id'] ?>&client_id=<?php echo $user['client_id']; ?>">Удалить пользователя</a>
                             <?php endif; ?>
                         </th>
                     </tr>

@@ -26,7 +26,7 @@ $avgStatusCompleteds = AvgStatusCompleted($pdo);
         <table>
             <thead>
                 <tr>
-                    <th>Общая сумма — сумма всех заказов со статусом “доставлен”.</th>
+                    <th>Общая сумма — сумма всех заказов со статусом “Завершён”.</th>
                 </tr>
             </thead>
             <tbody>

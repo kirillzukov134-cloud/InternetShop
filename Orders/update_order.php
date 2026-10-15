@@ -21,7 +21,7 @@ $order = getOrderById($pdo, $id);
     <main class="content">
         <h1 class="name-chapter">Изменить статус заказа №<?php echo $order['id'] ?></h1>
 
-        <form class="form-filling" action="update_orders_status_logic.php" method="post">
+        <form class="form-filling" action="update_orders_status_logic.php" method="post" style="width: 54vh;">
             <input type="hidden" name="id" value="<?php echo $order['id'] ?>">
             <label class="form-name"> Новый статус
                 <select name="status" class="option-category" required>

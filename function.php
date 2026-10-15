@@ -123,7 +123,7 @@ function selectAllClients($pdo){
 
 //Все пользователи
 function selectAllUsers($pdo){
-    $sql = "SELECT id, name, is_blocked FROM Users";
+    $sql = "SELECT id, name, client_id, is_blocked FROM Users";
     $statement = $pdo->prepare($sql);
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -211,13 +211,43 @@ function unblockUser($pdo, $id){
     ]);
 }
 
-//Удалить клиента
-function deleteClient($pdo, $id){
-    $sql = "DELETE FROM Clients WHERE id = :id";
+//Количество 
+function examinationOrders($pdo, $client_id){
+    $sql = "SELECT COUNT(*) FROM Orders WHERE client_id = :client_id";
+    $statement = $pdo->prepare($sql);
+    $statement->execute([
+        ':client_id' => $client_id,
+    ]);
+    return $statement->fetchColumn();
+}
+
+//Удаление пользователя
+function deleteUsers($pdo, $id){
+    $sql = "DELETE FROM Users WHERE id = :id";
     $statement = $pdo->prepare($sql);
     return $statement->execute([
         ':id' => $id
     ]);
+}
+
+//Удаление клиента
+function deleteClient($pdo, $client_id){
+    $sql = "DELETE FROM Clients WHERE id = :client_id";
+    $statement = $pdo->prepare($sql);
+    return $statement->execute([
+        ':client_id' => $client_id
+    ]);
+}
+
+//Удаление пользователя и клиента автоматически (времено... - потом исправлю)
+function deleteUsersAndClient($pdo, $id, $client_id){
+    $examination = examinationOrders($pdo, $client_id);
+        if($examination > 0 ){
+            return false;
+        }
+    deleteUsers($pdo, $id);
+    deleteClient($pdo, $client_id);
+    return true;
 }
 
 
