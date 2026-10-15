@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Окт 11 2026 г., 21:05
+-- Время создания: Окт 15 2026 г., 20:53
 -- Версия сервера: 5.7.39
 -- Версия PHP: 7.2.34
 
@@ -39,9 +39,8 @@ CREATE TABLE `Clients` (
 --
 
 INSERT INTO `Clients` (`id`, `name`, `email`, `phone`) VALUES
-(3, 'Кирилл', 'kirillzukov134@gmail.com', '+7 999 645-79-59'),
-(4, '1212', 'werewrw@gmail.com', '89371244878'),
-(10, '1213123', '123131@gmail.com', '21321321');
+(3, 'Кирилл', 'kirillzukov134@gmail.com', '89996457959'),
+(17, '121212', '121212@gfdgdfgdddd', '899964579593');
 
 -- --------------------------------------------------------
 
@@ -62,11 +61,9 @@ CREATE TABLE `Orders` (
 --
 
 INSERT INTO `Orders` (`id`, `client_id`, `created_at`, `total_amount`, `status`) VALUES
-(18, 3, '2026-10-07 21:17:46', '1170.00', 'Прервано'),
-(19, 3, '2026-10-07 21:18:33', '110000.00', 'Прервано'),
-(21, 4, '2026-10-07 23:39:05', '113995.00', 'В процессе'),
-(22, 4, '2026-10-07 23:39:52', '227990.00', 'Активный'),
-(23, 3, '2026-10-10 17:45:41', '0.00', 'Прервано');
+(19, 3, '2026-10-07 21:18:33', '110000.00', 'Активный'),
+(27, 17, '2026-10-15 15:52:44', '2370.00', 'Активный'),
+(28, 3, '2026-10-15 17:29:05', '1500.00', 'Активный');
 
 -- --------------------------------------------------------
 
@@ -87,10 +84,9 @@ CREATE TABLE `Order_position` (
 --
 
 INSERT INTO `Order_position` (`id`, `quanitity`, `purchase_at_price`, `product_id`, `order_id`) VALUES
-(7, 1, '1170.00', 3, 18),
 (8, 2, '55000.00', 4, 19),
-(12, 1, '113995.00', 2, 21),
-(13, 2, '113995.00', 2, 22);
+(16, 2, '1185.00', 3, 27),
+(17, 1, '1500.00', 5, 28);
 
 -- --------------------------------------------------------
 
@@ -112,9 +108,9 @@ CREATE TABLE `Product` (
 
 INSERT INTO `Product` (`id`, `name`, `price`, `remains`, `category_id`) VALUES
 (2, 'Sumsung S26 Ultra (12 ГБ / 256 ГБ)', '113995', '10', 3),
-(3, 'Футболки с принтом «Пивные войска»', '1185', '5', 1),
+(3, 'Футболки с принтом «Пивные войска»', '1185', '3', 1),
 (4, 'Стиральная машина', '55000', '15', 8),
-(5, 'Grand The Auto V', '1500', '3', 9);
+(5, 'Grand The Auto V', '1500', '5', 9);
 
 -- --------------------------------------------------------
 
@@ -161,8 +157,7 @@ CREATE TABLE `Users` (
 
 INSERT INTO `Users` (`id`, `name`, `email`, `phone`, `password`, `role`, `client_id`, `is_blocked`) VALUES
 (1, 'Кирилл', 'kirillzukov134@gmail.com', '89996457959', '$2y$10$dNpv2O8z6wGgx24L2hsJfu3UHBJciDxD2ZSxeoQJsrzdZJABOX8h.', 'Admin', 3, 0),
-(2, '1212', 'Zulfianurekenova@gmail.com', '89371244878', '$2y$10$Cw6nQBNakv1Tw4yE0DmEiOqTLjvmmJbYdkvQWS4VNbceeMZI2XmuC', 'User', 4, 0),
-(6, '1213123', '123131@gmail.com', '21321321', '$2y$10$i9sHdQ4DxBZoFPTHFi0OJu2FpyapA5mQ0/DZAkFNmdeB0hkCX2YZC', 'User', 10, 0);
+(12, '121212', '121212@gfdgdfgd', '89996457959', '$2y$10$BLx//eyfEo9spH3hO3RO5emFurWIW/yLqn47vHeKmuNUKYFr3JUM.', 'User', 17, 0);
 
 --
 -- Индексы сохранённых таблиц
@@ -219,19 +214,19 @@ ALTER TABLE `Users`
 -- AUTO_INCREMENT для таблицы `Clients`
 --
 ALTER TABLE `Clients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT для таблицы `Orders`
 --
 ALTER TABLE `Orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT для таблицы `Order_position`
 --
 ALTER TABLE `Order_position`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT для таблицы `Product`
@@ -249,7 +244,7 @@ ALTER TABLE `Product_category`
 -- AUTO_INCREMENT для таблицы `Users`
 --
 ALTER TABLE `Users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
