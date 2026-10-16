@@ -35,7 +35,7 @@ if (!empty($minimum_price) && !empty($maximum_price )) {
         <?php if($_SESSION['user']['role'] === 'Admin'): ?>
             <a class="btn-add" href="add_product.php">Добавить продукт</a>
             <div class="search">
-                <form method="POST">
+                <form method="POST" style="width: 44vh;">
                     <input type="text" name="category_id" class="input-search-category" value="<?php echo $category_id?>" placeholder="Введите категорию">
                     <input type="text" name="product_id" class="input-search-product" value="<?php echo $product_id?>" placeholder="Введите товар">
                     <input type="number" name="minimum_price" class="input-search-price" value="<?php echo $minimum_price?>" placeholder="Цена от">

@@ -155,7 +155,9 @@ a.btn-add{
     text-decoration: none;
     border: 2px solid #00ed476f;
     font-weight: bold;
-    float: left;
+    display: flex;
+    width: 20vh;
+    /* float: left; */
     margin: 15px;
     border-radius: 8px;
     padding: 3px 3px;

@@ -30,9 +30,10 @@ if($status){
     <?php include '../Users/sidebar.php'; ?>
     <main class="content">
         <h1 class="name-chapter">Мои заказы</h1>
-        <form method="POST">
+        <h2 style="display: flex">Поиск</h2>
+        <form method="POST" style="width: 44vh;">
             <input type="text" name="status" class="input-search-category" value="<?php echo $status ?>" placeholder="Введите статус">
-            <input type="text" name="name" class="input-search-category" value="<?php echo $name ?>" placeholder="Введите имя">
+            <input type="text" name="name" class="input-search-name" value="<?php echo $name ?>" placeholder="Введите имя клиента">
             <input type="text" name="time" class="input-search-category" value="<?php echo $time ?>" placeholder="Введите время">
             <button class="btn-search" type="submit">Найти</button>
             <a href="ordersInfo.php" class="btn-search">Сбросить</a>
@@ -69,7 +70,6 @@ if($status){
                             <?php if ($_SESSION['user']['role'] === 'Admin'): ?>
                             <td>
                                 <a href="update_order.php?id=<?php echo $order['id'] ?>" class="btn-switching">Редактировать статус</a>
-                                <!-- <a href="update_order.php?id=<?php echo $order['id'] ?>" class="btn-switching">Редактировать статус</a> -->
                             </td>
                             <?php endif; ?>
                         </tr>
